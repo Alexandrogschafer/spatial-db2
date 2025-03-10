@@ -1,0 +1,1041 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS &#8212; Bancos de Dados Espaciais2</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'capitulo5';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Bancos de Dados Espaciais" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/postgis_python.png" class="logo__image only-light" alt="Bancos de Dados Espaciais2 - Home"/>
+    <script>document.write(`<img src="_static/postgis_python.png" class="logo__image only-dark" alt="Bancos de Dados Espaciais2 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Bancos de Dados Espaciais
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Alexandrogschafer/spatial-db2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Alexandrogschafer/spatial-db2/edit/main/capitulo5.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Alexandrogschafer/spatial-db2/issues/new?title=Issue%20on%20page%20%2Fcapitulo5.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/capitulo5.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-capitulo">Estrutura do Capítulo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisitos"><strong>Pré-requisitos:</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#banco-de-dados-do-censo-demografico-do-ibge">5.1 Banco de Dados do Censo Demográfico do IBGE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacao-dos-dados-e-codigos">5.2 Preparação dos Dados e Códigos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracao-e-importacao-de-dados-no-qgis">5.3 Configuração e Importação de Dados no QGIS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracao-da-conexao-com-o-banco-de-dados"><strong>5.3.1 Configuração da Conexão com o Banco de Dados</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacao-dos-arquivos-shapefile-para-o-banco-de-dados-a-partir-do-qgis">5.4 Importação dos Arquivos Shapefile para o Banco de Dados a partir do QGIS</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulacao-de-dados-no-pgadmin">5.5 Manipulação de Dados no PgAdmin</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deletar-a-tabela-geometrias">5.5.1 Deletar a Tabela <code class="docutils literal notranslate"><span class="pre">geometrias</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criacao-de-novas-tabelas"><strong>5.5.2 Criação de Novas Tabelas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deletar-do-banco-de-dados-as-tabelas-importadas-a-partir-do-qgis">5.5.3 Deletar do banco de dados as tabelas importadas a partir do QGIS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criacao-de-chaves-estrangeiras-e-indices-espaciais">5.5.4 Criação de chaves estrangeiras e índices espaciais</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criacao-de-indices-espaciais">5.5.5 Criação de índices espaciais</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacao-do-vacuum-analyze">5.5.6 Aplicação do VACUUM ANALYZE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacao-da-integridade-e-validade-dos-dados">5.6 Verificação da Integridade e Validade dos Dados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checagem-de-existencia-de-valores-nulos">5.6.1 Checagem de existência de valores nulos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checagem-de-existencia-de-duplicatas">5.6.2 Checagem de existência de duplicatas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacao-da-validade-das-geometrias">5.6.3 Verificação da validade das geometrias</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacao-das-tabelas-no-qgis">5.7 Visualização das tabelas no QGIS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consideracoes-finais">5.8 Considerações Finais</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="manipulacao-de-geometrias-operacoes-basicas-com-dados-espaciais">
+<h1>5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS<a class="headerlink" href="#manipulacao-de-geometrias-operacoes-basicas-com-dados-espaciais" title="Link to this heading">#</a></h1>
+<p>Neste capítulo, você aprenderá a configurar e manipular um ambiente de banco de dados espacial, trabalhando com dados reais do Censo do IBGE. As análises práticas serão realizadas com base no banco de dados introduzido no Capítulo 2, que passou por uma atualização significativa: de uma estrutura exclusivamente alfanumérica para uma plataforma compatível com dados espaciais. Essa evolução amplia suas funcionalidades, permitindo a representação e análise espacial, essenciais para a tomada de decisões baseadas na localização.</p>
+<p>Ao final deste capítulo, você terá domínio prático sobre o processamento de dados espaciais e estará apto a aplicar essas técnicas em seus projetos e pesquisas.</p>
+<section id="estrutura-do-capitulo">
+<h2>Estrutura do Capítulo<a class="headerlink" href="#estrutura-do-capitulo" title="Link to this heading">#</a></h2>
+<p>a. <strong>Configuração Inicial no PgAdmin</strong><br />
+Configuração do ambiente para manipulação de dados espaciais. Conexão ao servidor PostgreSQL, ajuste de permissões, definição de parâmetros de conexão e preparação do banco para receber e processar informações espaciais.</p>
+<p>b. <strong>Preparação dos Dados do Censo IBGE</strong><br />
+Padronização e estruturação dos dados do Censo do IBGE, garantindo sua completude e compatibilidade com as análises espaciais antes da importação para o banco.</p>
+<p>c. <strong>Importação e Configuração no QGIS</strong><br />
+Conexão do banco de dados ao QGIS para importação e visualização dos dados espaciais. Configuração da integração entre os sistemas, ajustes de exibição e preparação para análise e manipulação.</p>
+<p>d. <strong>Manipulação de Dados no PgAdmin</strong><br />
+Ajustes na estrutura do banco de dados para otimizar armazenamento e desempenho. Implementação de índices espaciais e chaves estrangeiras para aprimorar a integridade referencial e a eficiência das consultas espaciais.</p>
+<p>e. <strong>Verificação de Integridade e Limpeza de Dados</strong><br />
+Aplicação de verificações e procedimentos de limpeza para garantir precisão e consistência. Identificação e correção de erros, como geometrias inválidas e dados corrompidos, utilizando as ferramentas disponíveis no PgAdmin.</p>
+<p>f. <strong>Visualização e Análise Final no QGIS</strong><br />
+Verificação da precisão dos dados no QGIS, realização de análises espaciais e interpretação dos resultados gerados após os ajustes e validações.</p>
+<p>g. <strong>Revisão e Atualização no PgAdmin</strong><br />
+Revisão final do banco de dados para garantir integridade estrutural, relações entre tabelas e ajustes necessários, assegurando um ambiente robusto e confiável.</p>
+</section>
+<section id="pre-requisitos">
+<h2><strong>Pré-requisitos:</strong><a class="headerlink" href="#pre-requisitos" title="Link to this heading">#</a></h2>
+<p>Para realizar as atividades deste capítulo, é necessário:</p>
+<ul class="simple">
+<li><p>Ter o <strong>PostgreSQL, PostGIS, PgAdmin4 e QGIS</strong> instalados no computador (ou instalá-los).</p></li>
+<li><p>Baixar os arquivos shapefile do capítulo 5 disponíveis em:<br />
+<a class="reference external" href="https://drive.google.com/drive/folders/10NjJSrqlx36Or-ozQJbRfwIocFQOPIdf?usp=sharing">Arquivos Shapefile - Capítulo 5</a></p></li>
+<li><p>Acessar o código SQL do capítulo 5 disponível em:<br />
+<a class="reference external" href="https://drive.google.com/drive/folders/10NjJSrqlx36Or-ozQJbRfwIocFQOPIdf?usp=sharing">Código SQL - Capítulo 5</a></p></li>
+</ul>
+</section>
+<section id="banco-de-dados-do-censo-demografico-do-ibge">
+<h2>5.1 Banco de Dados do Censo Demográfico do IBGE<a class="headerlink" href="#banco-de-dados-do-censo-demografico-do-ibge" title="Link to this heading">#</a></h2>
+<p>O banco de dados apresentado no Capítulo 2 foi atualizado para incorporar suporte a dados espaciais, ampliando suas funcionalidades para análises e operações no sistema. A <strong>Figura 1</strong> apresenta o projeto lógico do banco de dados atualizado.</p>
+<p><img alt="Figura 501" src="_images/fig5_0_1.png" /></p>
+<p>Este diagrama representa a estrutura hierárquica e as relações entre municípios, regiões imediatas e intermediárias, estados e regiões para o banco de dados.</p>
+<p><strong>Principais mudanças da versão anterior para a atual</strong></p>
+<p>a. <strong>Inclusão de Atributos Geométricos</strong></p>
+<p>A principal modificação no banco de dados foi a adição do atributo <code class="docutils literal notranslate"><span class="pre">geom</span></code> em todas as tabelas existentes. Antes, as tabelas <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>, <code class="docutils literal notranslate"><span class="pre">regiao_imed</span></code>, <code class="docutils literal notranslate"><span class="pre">regiao_inter</span></code>, <code class="docutils literal notranslate"><span class="pre">estado</span></code> e <code class="docutils literal notranslate"><span class="pre">regiao</span></code> armazenavam apenas informações alfanuméricas. Agora, cada uma dessas tabelas inclui um campo de geometria espacial:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">geom</span> <span class="pre">GEOMETRY(MULTIPOLYGON)</span></code></strong>: Adicionado às tabelas <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>, <code class="docutils literal notranslate"><span class="pre">regiao_imed</span></code>, <code class="docutils literal notranslate"><span class="pre">regiao_inter</span></code>, <code class="docutils literal notranslate"><span class="pre">estado</span></code> e <code class="docutils literal notranslate"><span class="pre">regiao</span></code>, permitindo operações como cálculo de área, sobreposição de regiões e consultas espaciais avançadas.</p></li>
+</ul>
+<p>b. <strong>Criação da Tabela <code class="docutils literal notranslate"><span class="pre">Capitais</span></code></strong></p>
+<p>Uma nova tabela chamada <code class="docutils literal notranslate"><span class="pre">capitais</span></code> foi introduzida para armazenar informações sobre as capitais dos estados. Estrutura da tabela:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cd_geocodi</span> <span class="pre">INT</span> <span class="pre">[pk]</span></code></strong>: Código identificador da capital (chave primária).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">nome_cap</span> <span class="pre">VARCHAR</span></code></strong>: Nome da capital.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cod_uf</span> <span class="pre">INT</span></code></strong>: Código do estado ao qual a capital pertence.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">geom</span> <span class="pre">GEOMETRY(POINT)</span></code></strong>: Localização exata da capital em formato de ponto.</p></li>
+</ul>
+<p><strong>Estratégias para armazenamento de geometrias</strong></p>
+<p>A transformação de um banco de dados alfanumérico para um banco de dados espacial envolve diferentes abordagens para a integração e manipulação de dados geométricos.</p>
+<p>a. <strong>Abordagem de Agregação Dinâmica (Usando Apenas <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>)</strong></p>
+<p><strong>Como Funcionaria:</strong></p>
+<ul class="simple">
+<li><p>Armazena a geometria detalhada apenas na tabela de nível mais baixo (<code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>).</p></li>
+<li><p>Utiliza funções como <code class="docutils literal notranslate"><span class="pre">ST_Union</span></code> para construir as geometrias das regiões superiores dinamicamente.</p></li>
+</ul>
+<p><strong>Vantagens:</strong></p>
+<ul class="simple">
+<li><p><strong>Economia de armazenamento</strong>: evita redundância de dados espaciais.</p></li>
+<li><p><strong>Facilidade de manutenção</strong>: alterações na geometria de um município se propagam automaticamente.</p></li>
+<li></li>
+</ul>
+<p><strong>Desvantagens:</strong></p>
+<ul class="simple">
+<li><p><strong>Desempenho reduzido</strong>: cálculos dinâmicos podem ser lentos em grandes volumes de dados.</p></li>
+<li><p><strong>Consultas mais complexas</strong>: requer SQL avançado para operações espaciais.</p></li>
+</ul>
+<p>b. <strong>Abordagem de Armazenamento de Geometrias em Cada Tabela</strong></p>
+<p><strong>Como Implementado:</strong></p>
+<ul class="simple">
+<li><p>Cada tabela (<code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>, <code class="docutils literal notranslate"><span class="pre">regiao_imed</span></code>, <code class="docutils literal notranslate"><span class="pre">regiao_inter</span></code>, <code class="docutils literal notranslate"><span class="pre">estado</span></code>, <code class="docutils literal notranslate"><span class="pre">regiao</span></code>) possui seu próprio campo <code class="docutils literal notranslate"><span class="pre">geom</span></code>, armazenando a geometria correspondente.</p></li>
+</ul>
+<p><strong>Vantagens:</strong></p>
+<ul class="simple">
+<li><p><strong>Melhor desempenho</strong>: evita a necessidade de gerar geometrias em tempo de execução.</p></li>
+<li><p><strong>Simplicidade nas consultas</strong>: facilita a recuperação de dados geográficos.</p></li>
+<li><p><strong>Independência das tabelas</strong>: cada nível hierárquico pode ser acessado separadamente.</p></li>
+</ul>
+<p><strong>Desvantagens:</strong></p>
+<ul class="simple">
+<li><p><strong>Redundância de dados</strong>: geometrias podem ser repetidas em diferentes níveis da hierarquia.</p></li>
+<li><p><strong>Manutenção mais complexa</strong>: alterações em entidades menores precisam ser propagadas manualmente.</p></li>
+</ul>
+<p><strong>Decisão Final</strong><br />
+A abordagem escolhida foi o <strong>armazenamento de geometrias em cada tabela</strong>, priorizando desempenho e simplicidade na consulta, ainda que implique maior redundância e necessidade de manutenção.</p>
+</section>
+<section id="preparacao-dos-dados-e-codigos">
+<h2>5.2 Preparação dos Dados e Códigos<a class="headerlink" href="#preparacao-dos-dados-e-codigos" title="Link to this heading">#</a></h2>
+<p>Esta etapa consiste em preparar os dados e códigos em seu computador para utilização nas atividades práticas.</p>
+<p>Faça o download dos arquivos shapefiles compactados (<a class="reference external" href="https://drive.google.com/drive/folders/10NjJSrqlx36Or-ozQJbRfwIocFQOPIdf?usp=sharing">Arquivos Shapefile - Capítulo 5</a>) e descompacte-os em uma pasta no seu computador.</p>
+<p>Ao final do processo, você terá os seguintes arquivos shapefile:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">censo_municipios</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">estados_brasil</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">regioes_brasil</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">regioes_imediatas</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">regioes_intermediarias</span></code></p></li>
+</ul>
+<p>A figura abaixo apresenta uma visão parcial dos arquivos shapefile descompactados.</p>
+<p><img alt="Figura 1" src="images/fig5_0_2.png" /></p>
+<p>Em seguida, faça o download do arquivo com os códigos do capítulo, disponível em:<br />
+<a class="reference external" href="https://drive.google.com/drive/folders/10NjJSrqlx36Or-ozQJbRfwIocFQOPIdf?usp=sharing">Código SQL - Capítulo 5</a></p>
+</section>
+<section id="configuracao-e-importacao-de-dados-no-qgis">
+<h2>5.3 Configuração e Importação de Dados no QGIS<a class="headerlink" href="#configuracao-e-importacao-de-dados-no-qgis" title="Link to this heading">#</a></h2>
+<p>Nesta etapa, será configurada a conexão do banco de dados no <strong>QGIS</strong> e importados os arquivos shapefile diretamente para o banco de dados.</p>
+<p>Inicialmente, acesse o pgAdmin4 e verifique a conexão com o PostgreSQL. Abra o PgAdmin e conecte-se ao seu servidor PostgreSQL 16.</p>
+<p><img alt="Figura 1" src="_images/fig5_1.png" /></p>
+<p>Acesse a tabela <code class="docutils literal notranslate"><span class="pre">bdespacial</span></code>, que foi criada no capítulo 4 de nosso livro-texto.</p>
+<p><img alt="Figura 1" src="_images/fig5_2.png" /></p>
+<p>Abra o QGIS e adicione cada um dos arquivos shapefile descompactados como camadas.</p>
+<p>Shapefile censo_municipios:</p>
+<p><img alt="Figura 1" src="_images/fig5_3.png" /></p>
+<p>Shapefile regioes_imediatas:</p>
+<p><img alt="Figura 1" src="_images/fig5_4.png" /></p>
+<p>Shapefile regioes_intermediarias:</p>
+<p><img alt="Figura 1" src="_images/fig5_5.png" /></p>
+<p>Shapefile estados_brasil:</p>
+<p><img alt="Figura 1" src="_images/fig5_6.png" /></p>
+<p>Shapefile regioes_brasil:</p>
+<p><img alt="Figura 1" src="_images/fig5_7.png" /></p>
+<section id="configuracao-da-conexao-com-o-banco-de-dados">
+<h3><strong>5.3.1 Configuração da Conexão com o Banco de Dados</strong><a class="headerlink" href="#configuracao-da-conexao-com-o-banco-de-dados" title="Link to this heading">#</a></h3>
+<p>Para conectar o banco de dados ao QGIS, siga os passos a seguir.</p>
+<p>Acesse o menu “Camada” na barra de ferramentas superior. Selecione “Adicionar Camada” e depois escolha “Adicionar Camada PostGIS”.</p>
+<p><img alt="Figura 1" src="_images/fig5_8.png" /></p>
+<p>Clique em “Novo” para configurar uma nova conexão.</p>
+<p><img alt="Figura 1" src="_images/fig5_9.png" /></p>
+<p>Insira as informações de conexão, conforme a figura a seguir.</p>
+<p><img alt="Figura 1" src="_images/fig5_10.png" /></p>
+<p>Após realizar a conexão, clique em “OK” para salvar a configuração. Abrirá a janela de credenciais. Entre como usuário e a senha que você definiu quando instalou o PostgreSQL.</p>
+<p><img alt="Figura 1" src="_images/fig5_11.png" /></p>
+<p>A conexão aparecerá na lista de conexões PostGIS. Selecione-a e clique em “Conectar” para carregar as tabelas disponíveis no banco de dados bdespacial.</p>
+<p><img alt="Figura 1" src="_images/fig5_12.png" /></p>
+<p><img alt="Figura 1" src="_images/fig5_13.png" /></p>
+<p>Neste momento, temos apenas a tabela “geometrias”, que criamos no capítulo anterior, no bdespacial. Note que, apesar de termos apenas uma tabela em bdespacial, o QGIS separa os dados de acordo com os tipos espaciais.</p>
+</section>
+</section>
+<section id="importacao-dos-arquivos-shapefile-para-o-banco-de-dados-a-partir-do-qgis">
+<h2>5.4 Importação dos Arquivos Shapefile para o Banco de Dados a partir do QGIS<a class="headerlink" href="#importacao-dos-arquivos-shapefile-para-o-banco-de-dados-a-partir-do-qgis" title="Link to this heading">#</a></h2>
+<p>Para importar os arquivos shapefile adicionados como camadas no <strong>QGIS</strong>, é necessário acessar o <strong>Gerenciador de Banco de Dados</strong>.</p>
+<p>No menu superior do QGIS, clique em “Banco de Dados”. Selecione “Gerenciador de BD” para abrir o gerenciador de banco de dados.</p>
+<p><img alt="Figura 1" src="_images/fig5_16.png" /></p>
+<p>No Gerenciador de BD, localize no painel esquerdo a lista de conexões de banco de dados.</p>
+<p><img alt="Figura 1" src="_images/fig5_17.png" /></p>
+<p>Expanda as conexões e localize a conexão chamada “bd_geo”, que é a conexão com seu banco de dados espacial.</p>
+<p><img alt="Figura 1" src="_images/fig5_18.png" /></p>
+<p>Dê um clique duplo em “bd_geo” para ativá-la e expanda a árvore bdgeo/public.</p>
+<p><img alt="Figura 1" src="_images/fig5_19.png" /></p>
+<p><img alt="Figura 1" src="_images/fig5_20.png" /></p>
+<p>Com a conexão “bd_geo” selecionada, clique no ícone “Importar camada/arquivo” na barra de ferramentas do Gerenciador de BD.</p>
+<p><img alt="Figura 1" src="_images/fig5_21.png" /></p>
+<p>Na janela de importação que se abrirá, você deverá escolher o arquivo shapefile. Como os arquivos shapefile já estão carregados no QGIS, ele aparecerão automaticamente na seção “Entrada”.</p>
+<p>Em “Entrada”, selecione “regioes_intermediarias”. Não altere as configurações de esquema (schema) e nome da tabela onde deseja armazenar os dados dentro do banco de dados. Vamos manter o esquema “public” e o nome do arquivo shapefile. Não será necessário marcar as outras opções.</p>
+<p><img alt="Figura 1" src="_images/fig5_22.png" /></p>
+<p>Após configurar todos os parâmetros necessários, clique em “OK” para iniciar a importação do shapefile para o banco de dados “bdespacial”.</p>
+<p>Aguarde o processamento da importação pelo QGIS, que pode variar em duração dependendo do tamanho do shapefile e da complexidade dos dados. Pode aparecer a mensagem abaixo:</p>
+<p><img alt="Figura 1" src="_images/fig5_23.png" /></p>
+<p>Caso isto ocorra, clique em “wait” ou apenas aguarde a conclusão do processamento.</p>
+<p>Após a finalização da importação, aparecerá a seguinte mensagem:</p>
+<p><img alt="Figura 1" src="_images/fig5_24.png" /></p>
+<p>Repita o procedimento para os demais arquivos shapefiles.</p>
+<p>Shapefile estados_brasil:</p>
+<p><img alt="Figura 1" src="_images/fig5_27.png" /></p>
+<p>Shapefile regioes_brasil:</p>
+<p><img alt="Figura 1" src="_images/fig5_26.png" /></p>
+<p>Shapefile regioes_imediatas:</p>
+<p><img alt="Figura 1" src="_images/fig5_25.png" /></p>
+<p>Shapefile censo_municipios:</p>
+<p><img alt="Figura 1" src="_images/fig5_28.png" /></p>
+<p>Ao final do processo de importação, o esquema “public” deve conter as tabelas e visões conforme figura abaixo:</p>
+<p><img alt="Figura 1" src="_images/fig5_30.png" /></p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="manipulacao-de-dados-no-pgadmin">
+<h1>5.5 Manipulação de Dados no PgAdmin<a class="headerlink" href="#manipulacao-de-dados-no-pgadmin" title="Link to this heading">#</a></h1>
+<p>Após concluir as operações no <strong>QGIS</strong>, retorne ao <strong>PgAdmin</strong> e atualize o banco de dados para garantir que todas as tabelas importadas e as alterações feitas até o momento sejam refletidas corretamente.</p>
+<p><img alt="Figura 1" src="_images/fig5_31.png" /></p>
+<p>A figura abaixo apresenta a estrutura do banco de dados após a importação dos arquivos shapefile no <strong>QGIS</strong>.</p>
+<p><img alt="Figura 1" src="_images/fig5_32_1.png" /></p>
+<p>Vamos abrir a ferramenta de consulta do pgAdmin4. Selecione o banco de dados bdespacial e clique em Query tool.</p>
+<p><img alt="Figura 1" src="_images/fig5_33.png" /></p>
+<p><img alt="Figura 1" src="_images/fig5_34.png" /></p>
+<section id="deletar-a-tabela-geometrias">
+<h2>5.5.1 Deletar a Tabela <code class="docutils literal notranslate"><span class="pre">geometrias</span></code><a class="headerlink" href="#deletar-a-tabela-geometrias" title="Link to this heading">#</a></h2>
+<p>A tabela <code class="docutils literal notranslate"><span class="pre">geometrias</span></code> não será utilizada no estudo prático deste capítulo. Para removê-la:</p>
+<p>Abra a ferramenta de consulta do <strong>PgAdmin4</strong>.</p>
+<p>Selecione o banco de dados <strong>bdespacial</strong> e clique em <strong>“Query Tool”</strong>.</p>
+<p>Execute o seguinte comando SQL para excluir a tabela:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">geometrias</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><img alt="Figura 1" src="_images/fig5_101.png" /></p>
+<p>Atualize novamente o banco de dados para verificar se a tabela foi removida.</p>
+<p><img alt="Figura 1" src="_images/fig5_102.png" /></p>
+<p>Confirme que a tabela <strong>“geometrias”</strong> não está mais listada no painel de navegação.</p>
+<p><img alt="Figura 1" src="_images/fig5_103.png" /></p>
+</section>
+<section id="criacao-de-novas-tabelas">
+<h2><strong>5.5.2 Criação de Novas Tabelas</strong><a class="headerlink" href="#criacao-de-novas-tabelas" title="Link to this heading">#</a></h2>
+<p>Consulte os cinco primeiros registros da tabela censo_municipios, para verificarmos a sua estrutura.</p>
+<p><img alt="Figura 1" src="_images/fig5_104.png" /></p>
+<p>Podemos verificar que a tabela importada no QGIS apresenta as colunas desordenadas, com a coluna <code class="docutils literal notranslate"><span class="pre">geom</span></code> não posicionada ao final da tabela conforme definido no projeto lógico de nosso banco de dados. O mesmo ocorre para as tabelas regioes_imediatas, regioes_intermediarias, estados_brasil e regioes_brasil.</p>
+<p>Para reorganizar as colunas adequadamente, minimizar a possibilidade de erros e prevenir problemas que pudessem comprometer a integridade do nosso banco de dados, optamos por criar novas tabelas e copiar os dados das tabelas importadas para estas novas estruturas organizadas.</p>
+<p>Para garantir que o processo de organização das tabelas no banco de dados seja compreendido de forma clara e didática, adotamos um método passo a passo sistemático. Esse procedimento consiste em:</p>
+<ul class="simple">
+<li><p><strong>Criar uma tabela:</strong> Primeiramente, criamos uma nova tabela no banco de dados. Essa tabela é projetada com uma estrutura que inclui a definição de tipos de dados adequados para cada coluna, e o posicionamento estratégico da coluna <code class="docutils literal notranslate"><span class="pre">geom</span></code> ao final, garantindo que a ordem das colunas atenda às necessidades de análises futuras e otimize as operações no banco.</p></li>
+<li><p><strong>Inserir os dados na tabela:</strong> Após a criação da tabela, inserimos os dados da tabela importada originalmente do QGIS. Este passo envolve a transferência de dados, assegurando que cada registro seja corretamente alocado à coluna correspondente na nova estrutura.</p></li>
+<li><p><strong>Repetir o processo para outras tabelas:</strong> Repetimos os passos um e dois para cada uma das tabelas restantes. Este método sequencial nos permite focar na configuração e inserção de dados de uma tabela por vez, minimizando a possibilidade de erros durante a transferência de dados.</p></li>
+</ul>
+<p>Para criar a tabela censo_mun:</p>
+<p><img alt="Figura 1" src="_images/fig5_35.png" /></p>
+<p>Atualize o banco de dados para certificar-se de que a tabela censo_mun foi criada.</p>
+<p><img alt="Figura 1" src="_images/fig5_36.png" /></p>
+<p>A tabela censo_mun aparecerá na árvore do banco de dados no painel de navegação. Consulte o conteúdo de censo_mun:</p>
+<p><img alt="Figura 1" src="_images/fig5_37.png" /></p>
+<p>A tabela censo_mun está vazia, como podemos verificar em Data Output na figura abaixo.</p>
+<p><img alt="Figura 1" src="_images/fig5_39.png" /></p>
+<p>Vamos inserir os dados da tabela censo_municipios (a tabela que foi criada a partir da importação do arquivo shapefile no QGIS) na tabela censo_mun.</p>
+<p><img alt="Figura 1" src="_images/fig5_40.png" /></p>
+<p>O código SQL apresentado na figura anterior é comumente utilizado para migrar dados para uma nova estrutura de tabela ou reorganizar a tabela original sem modificar os dados existentes. A seguir, apresenta-se uma explicação detalhada de cada componente do código:</p>
+<p><strong>Estrutura do Código</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INSERT</span> <span class="pre">INTO</span> <span class="pre">censo_mun</span> <span class="pre">(...)</span></code>: Este comando é utilizado para inserir dados na tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>. Os parênteses após o nome da tabela contém a lista de colunas na tabela de destino que receberão os dados.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd_geocodi,</span> <span class="pre">nome_mun,</span> <span class="pre">area_km2,</span> <span class="pre">popul_2010,</span> <span class="pre">popul_2022,</span> <span class="pre">cod_rgi,</span> <span class="pre">cod_rgint,</span> <span class="pre">cod_uf,</span> <span class="pre">geom</span></code>: Estas são as colunas na tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> que serão preenchidas com os dados correspondentes da tabela <code class="docutils literal notranslate"><span class="pre">censo_municipios</span></code>. É essencial que a ordem das colunas listadas no <code class="docutils literal notranslate"><span class="pre">INSERT</span> <span class="pre">INTO</span></code> corresponda à ordem das colunas nos dados selecionados na cláusula <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>.</p></li>
+<li><p>A cláusula <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> é usada para especificar quais dados serão retirados da tabela original (<code class="docutils literal notranslate"><span class="pre">censo_municipios</span></code>).</p></li>
+<li><p>As colunas selecionadas (<code class="docutils literal notranslate"><span class="pre">cd_geocodi,</span> <span class="pre">nome_mun,</span> <span class="pre">area_km2,</span> <span class="pre">popul_2010,</span> <span class="pre">popul_2022,</span> <span class="pre">cod_rgi,</span> <span class="pre">cod_rgint,</span> <span class="pre">cod_uf,</span> <span class="pre">geom</span></code>) devem ser listadas na mesma ordem em que são esperadas pela cláusula <code class="docutils literal notranslate"><span class="pre">INSERT</span> <span class="pre">INTO</span></code> para garantir que os dados sejam inseridos corretamente nas coluna</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">censo_municipios</span></code>: Esta parte do comando especifica a tabela de origem dos dados. Neste caso, os dados são extraídos da tabela <code class="docutils literal notranslate"><span class="pre">censo_municipios</span></code>.</p></li>
+</ul>
+<p><strong>Funcionamento do Comando</strong></p>
+<p>Quando o comando é executado, o SQL primeiro avalia a cláusula <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> para buscar os dados especificados na tabela <code class="docutils literal notranslate"><span class="pre">censo_municipios</span></code>.
+Em seguida, ele insere esses dados na tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> nas colunas correspondentes listadas no <code class="docutils literal notranslate"><span class="pre">INSERT</span> <span class="pre">INTO</span></code>.
+Para verificar se ocorreu a inserção de dados, vamos consultar os 8 primeiros registros da tabela censo_mun:</p>
+<p><img alt="Figura 1" src="_images/fig5_42.png" /></p>
+<p>Podemos verificar que todas as colunas receberam dados advindos da tabela censo_municipios. Na próxima etapa vamos verificar a consistência dos dados, mas antes vamos criar as demais tabelas e inserir os dados.</p>
+<p>Vamos criar a tabela regiao_imed, que armazenará os dados referentes às regiões imediatas.</p>
+<p><img alt="Figura 1" src="_images/fig5_53.png" /></p>
+<p>Em seguida, executamos a consulta para inserir os dados da tabela regioes_imediatas na tabela regiao_imed.</p>
+<p><img alt="Figura 1" src="_images/fig5_54.png" /></p>
+<p>Para retornar os 8 primeiros registros da tabela regiao_imed, aplicamos a consulta conforme figura a seguir.</p>
+<p><img alt="Figura 1" src="_images/fig5_55.png" /></p>
+<p>Vamos criar a tabela regiao_inter, que armazenará os dados referentes às regiões intermediárias.</p>
+<p><img alt="Figura 1" src="_images/fig5_60.png" /></p>
+<p>Em seguida, executamos a consulta para inserir os dados da tabela regioes_intermediarias na tabela regiao_inter.</p>
+<p><img alt="Figura 1" src="_images/fig5_61.png" /></p>
+<p>Para retornar os 8 primeiros registros da tabela regiao_inter, aplicamos a consulta conforme figura a seguir.</p>
+<p><img alt="Figura 1" src="_images/fig5_62.png" /></p>
+<p>Vamos criar a tabela estado, que armazenará os dados referentes aos estados do Brasil.</p>
+<p><img alt="Figura 1" src="_images/fig5_63.png" /></p>
+<p>Em seguida, executamos a consulta para inserir os dados da tabela estados_brasil na tabela estado.</p>
+<p><img alt="Figura 1" src="_images/fig5_64.png" /></p>
+<p>Para retornar os registros da tabela estado, aplicamos a consulta conforme figura a seguir.</p>
+<p><img alt="Figura 1" src="_images/fig5_65.png" /></p>
+<p>Vamos criar a tabela regiao, que armazenará os dados referentes às grandes regiões do Brasil.</p>
+<p><img alt="Figura 1" src="_images/fig5_66.png" /></p>
+<p>Em seguida, executamos a consulta para inserir os dados da tabela regioes_brasil na tabela regiao.</p>
+<p><img alt="Figura 1" src="_images/fig5_67.png" /></p>
+<p>Para retornar os registros da tabela regiao, aplicamos a consulta conforme figura a seguir.</p>
+<p><img alt="Figura 1" src="_images/fig5_68.png" /></p>
+<p>Vamos criar a tabela capitais, que armazenará os dados referentes às capitais dos estados brasileiros, sendo representadas por geometrias do tipo POINT.</p>
+<p><img alt="Figura 1" src="_images/fig5_69.png" /></p>
+<p>Consulte o conteúdo da tabela capitais:</p>
+<p><img alt="Figura 1" src="_images/fig5_70.png" /></p>
+<p>Podemos verificar que não existem dados armazenados na tabela.</p>
+<p>Vamos aplicar a consulta apresentada na figura abaixo para inserir os dados nessa tabela.</p>
+<p><img alt="Figura 1" src="_images/fig5_16.png" /></p>
+<p>No código acima, a função ST_GeomFromText é usada para criar uma geometria a partir de um texto no formato WKT (Well-Known Text). O primeiro parâmetro é a string WKT que representa o ponto geográfico, e o segundo parâmetro é o SRID (4674 refere-se ao SIRGAS2000).</p>
+<p>Após a inserção dos dados, atualize o banco de dados.</p>
+<p><img alt="Figura 1" src="_images/fig5_71.png" /></p>
+<p>A tabela “capitais” foi criada com sucesso.</p>
+<p>Vamos consultar os primeiros 5 registros desta tabela, conforme consulta apresentada na figura abaixo.</p>
+<p><img alt="Figura 1" src="_images/fig5_72.png" /></p>
+<p>Caso alguma tabela criada anteriormente não apareça na árvore, aplique “refresh” para atualizá-la.</p>
+<p><img alt="Figura 1" src="_images/fig5_73.png" /></p>
+<p>Ao final desta seção, teremos as seguintes tabelas no banco de dados:</p>
+<p><img alt="Figura 1" src="_images/fig5_74.png" /></p>
+</section>
+<section id="deletar-do-banco-de-dados-as-tabelas-importadas-a-partir-do-qgis">
+<h2>5.5.3 Deletar do banco de dados as tabelas importadas a partir do QGIS<a class="headerlink" href="#deletar-do-banco-de-dados-as-tabelas-importadas-a-partir-do-qgis" title="Link to this heading">#</a></h2>
+<p>Delete as tabelas originais importadas do QGIS que agora estão substituídas pelas novas tabelas estruturadas utilizando o código apresentado na figura abaixo. Isso inclui <code class="docutils literal notranslate"><span class="pre">censo_municipios</span></code>, <code class="docutils literal notranslate"><span class="pre">regioes_imediatas</span></code>, <code class="docutils literal notranslate"><span class="pre">regioes_intermediarias</span></code>, <code class="docutils literal notranslate"><span class="pre">estados_brasil</span></code>, e <code class="docutils literal notranslate"><span class="pre">regioes_brasil</span></code>.</p>
+<p><img alt="Figura 1" src="_images/fig5_80.png" /></p>
+<p>Atualize o banco de dados.</p>
+<p><img alt="Figura 1" src="_images/fig5_81.png" /></p>
+<p>Na árvore do banco de dados no navegador na figura abaixo, podemos verificar que as tabelas foram deletadas corretamente.</p>
+<p><img alt="Figura 1" src="_images/fig5_82.png" /></p>
+<p>Consulte a visão <code class="docutils literal notranslate"><span class="pre">geometry_columns</span></code> para entender as informações sobre colunas geométricas.</p>
+<p><img alt="Figura 1" src="_images/fig5_83.png" /></p>
+</section>
+<section id="criacao-de-chaves-estrangeiras-e-indices-espaciais">
+<h2>5.5.4 Criação de chaves estrangeiras e índices espaciais<a class="headerlink" href="#criacao-de-chaves-estrangeiras-e-indices-espaciais" title="Link to this heading">#</a></h2>
+<p>No contexto de bancos de dados, as restrições (constraints) são regras aplicadas às colunas de uma tabela para garantir a integridade dos dados e a correta relação entre os registros.</p>
+<p>Elas são usadas para especificar regras sobre os dados que podem ser armazenados em uma tabela, ajudando a manter a consistência e a validade dos dados dentro do banco de dados. Tipos comuns de restrições (constraints) incluem:</p>
+<ul class="simple">
+<li><p>PRIMARY KEY: Garante que cada valor em uma coluna ou conjunto de colunas seja único e não nulo. É comumente usada para identificar de forma única cada linha em uma tabela.</p></li>
+<li><p>FOREIGN KEY: Estabelece uma relação entre a chave primária de uma tabela com a chave de outra tabela, garantindo a integridade referencial dos dados.</p></li>
+<li><p>UNIQUE: Assegura que todos os valores em uma coluna ou conjunto de colunas sejam diferentes entre si, impedindo duplicatas.</p></li>
+<li><p>CHECK: Permite especificar uma condição que cada valor em uma coluna deve satisfazer. Por exemplo, uma restrição CHECK pode ser usada para garantir que apenas idades positivas sejam inseridas em uma coluna de idade.</p></li>
+<li><p>NOT NULL: Especifica que uma coluna não pode ter um valor nulo. Esta restrição é usada para garantir que um campo sempre contenha um dado, sendo fundamental para dados que requerem uma entrada obrigatória.</p></li>
+</ul>
+<p>Já criamos chaves primárias no momento de criação das tabelas. Agora vamos inserir chaves estrangeiras, conforme o projeto lógico, para integrar as tabelas adequadamente.</p>
+<p>Antes de adicionar as chaves estrangeiras, vamos verificar no navegador (painel lateral esquerdo), as restrições (constraints) da tabela censo_mun.</p>
+<p><img alt="Figura 1" src="_images/fig5_105.png" /></p>
+<p>Podemos verificar que temos uma restrição na tabela censo_mun, que é a chave primária que adicionamos quando criamos a tabela.</p>
+<p>O código para criar as chaves estrangeiras em todas as tabelas de nosso banco de dados é apresentado na figura abaixo. Execute o script.</p>
+<p><img alt="Figura 1" src="_images/fig5_106.png" /></p>
+<p>Atualize o banco de dados e verifique “constraints” de cada tabela no navegador para ver se as chaves estrangeiras foram criadas corretamente.</p>
+<p><img alt="Figura 1" src="_images/fig5_107.png" /></p>
+<p>Na figura abaixo, visualizamos as restrições que inserimos na tabela censo_mun.</p>
+<p><img alt="Figura 1" src="_images/fig5_108.png" /></p>
+</section>
+<section id="criacao-de-indices-espaciais">
+<h2>5.5.5 Criação de índices espaciais<a class="headerlink" href="#criacao-de-indices-espaciais" title="Link to this heading">#</a></h2>
+<p>Conforme estudamos no capítulo 4, Índices espaciais são estruturas de dados especializadas usadas em bancos de dados para otimizar consultas que envolvem dados geométricos ou geográficos.</p>
+<p>Eles são importantes para melhorar a performance de operações que requerem busca, acesso e análise de dados espaciais, como localização de pontos, linhas e polígonos dentro de determinadas áreas ou o cálculo de distâncias entre objetos espaciais.</p>
+<p>Para aprimorar o desempenho das consultas em nosso banco de dados, implementaremos os índices GIST (Generalized Search Tree) nas colunas geométricas de todas as tabelas.</p>
+<p>O índice GIST é desenvolvido para gerenciar dados espaciais e é ideal para otimizar operações de busca e análise espacial, tais como interseções e determinação de proximidade. Com essa estratégia, nossas consultas se tornarão mais ágeis e eficientes, melhorando a performance do sistema.</p>
+<p>Na figura abaixo apresenta-se o código para criar os índices espaciais.</p>
+<p><img alt="Figura 1" src="_images/fig5_91.png" /></p>
+<p>Nesse código, cada linha cria um índice espacial para a coluna <code class="docutils literal notranslate"><span class="pre">geom</span></code> de uma tabela. O sufixo <code class="docutils literal notranslate"><span class="pre">_idx</span></code> no nome do índice é uma convenção comum para indicar que se trata de um índice, mas você pode nomear seus índices como preferir, desde que os nomes sejam únicos dentro do banco de dados.
+Após a criação dos índices no banco de dados, atualize o banco de dados e acesse os índices (indexes) da tabela censo_mun.</p>
+<p><img alt="Figura 1" src="_images/fig5_109.png" /></p>
+<p>Podemos verificar que temos o índice censo_mun_geom_idx, criado a partir de nossa consulta anterior. consulte os índices das demais tabelas de nosso banco de dados.</p>
+</section>
+<section id="aplicacao-do-vacuum-analyze">
+<h2>5.5.6 Aplicação do VACUUM ANALYZE<a class="headerlink" href="#aplicacao-do-vacuum-analyze" title="Link to this heading">#</a></h2>
+<p>Após a criação de tabelas e inserção de dados no PostgreSQL, é recomendável aplicar o comando <code class="docutils literal notranslate"><span class="pre">VACUUM</span> <span class="pre">ANALYZE</span></code> (conforme figura abaixo) para assegurar a saúde e eficiência do banco de dados.</p>
+<p><img alt="Figura 1" src="_images/fig5_110.png" /></p>
+<p>Este procedimento é importante porque o PostgreSQL opera sob o modelo MVCC (Multi-Version Concurrency Control), que mantém múltiplas versões de uma linha para facilitar transações simultâneas sem bloqueios de leitura. Quando dados são atualizados ou excluídos, suas versões antigas não são removidas automaticamente do armazenamento físico, mas apenas marcadas como obsoletas. O comando <code class="docutils literal notranslate"><span class="pre">VACUUM</span></code> atua diretamente nessa questão, limpando essas tuplas mortas, liberando espaço em disco e prevenindo o crescimento descontrolado do banco de dados.</p>
+<p>Além de realizar a limpeza, o comando VACUUM ANALYZE atualiza as estatísticas do banco de dados, fundamentais para a otimização do planejamento de consultas. O PostgreSQL depende dessas estatísticas para determinar a melhor maneira de executar consultas, baseando-se em informações sobre a frequência e distribuição dos dados. Sem estatísticas atualizadas, o otimizador de consultas pode adotar estratégias ineficientes, como selecionar um método de junção inadequado ou executar uma varredura completa desnecessária.</p>
+<p>O otimizador de consultas é um componente do sistema de gerenciamento de banco de dados (SGBD) responsável por determinar a melhor estratégia para executar uma consulta SQL. Ele analisa diferentes planos de execução e seleciona aquele que apresenta o menor custo computacional, garantindo maior eficiência no acesso e manipulação dos dados.</p>
+<p>O comando ANALYZE assegura que as estatísticas reflitam com precisão a distribuição e as características atuais dos dados após inserções, atualizações ou exclusões, contribuindo para a otimização da execução das consultas.</p>
+</section>
+<section id="verificacao-da-integridade-e-validade-dos-dados">
+<h2>5.6 Verificação da Integridade e Validade dos Dados<a class="headerlink" href="#verificacao-da-integridade-e-validade-dos-dados" title="Link to this heading">#</a></h2>
+<p>Nesta seção, iremos verificar a integridade e validade dos dados de nossas tabelas para assegurar a precisão e a confiabilidade das informações que suportam nossas operações e análises. Para tanto, checaremos:</p>
+<p>a) por valores nulos, a fim de identificar campos que requerem atenção imediata e correta atribuição de valores;</p>
+<p>b) por duplicatas, garantindo que os dados se mantenham únicos onde necessário e evitando redundâncias que possam comprometer a análise e;</p>
+<p>c) a validade das geometrias, certificando-nos de que os dados espaciais estejam corretos e precisos, essenciais para análises geográficas e tomadas de decisão baseadas em localização.</p>
+<p>Essas verificações são importantes para manter a qualidade dos dados em nosso banco de dados.</p>
+<section id="checagem-de-existencia-de-valores-nulos">
+<h3>5.6.1 Checagem de existência de valores nulos<a class="headerlink" href="#checagem-de-existencia-de-valores-nulos" title="Link to this heading">#</a></h3>
+<p>A identificação de registros que contenham campos não preenchidos, os chamados valores nulos, é de extrema relevância em bancos de dados. Estes podem indicar informações incompletas, erros de entrada de dados ou omissões que podem impactar negativamente a integridade e a utilidade do banco de dados. A presença de valores nulos em campos que são essenciais para análises ou operações pode levar a resultados incorretos ou a falhas em processos dependentes desses dados.
+Para localizar esses registros potencialmente problemáticos, utilizaremos a seguinte consulta SQL:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">nome_tabela</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">coluna</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Essa consulta irá buscar e listar todos os registros na tabela especificada onde a coluna indicada contém um valor nulo. Isso nos permite visualizar diretamente quais dados estão faltando, facilitando o processo de correção, seja solicitando informações adicionais ou ajustando processos de entrada de dados para prevenir tais ocorrências no futuro.</p>
+<p>Na figura a seguir apresentamos o código para realizar a consulta por valores nulos em todas as colunas da tabela censo_mun.</p>
+<p><img alt="Figura 1" src="_images/fig5_93.png" /></p>
+<p>De acordo com o resultado plotado em “Data Output” não temos valores nulos na tabela censo_mun.</p>
+<p>Para verificar valores nulos regiao_imed:</p>
+<p><img alt="Figura 1" src="_images/fig5_111.png" /></p>
+<p>De acordo com o resultado plotado em “Data Output” não temos valores nulos na tabela regiao_imed.</p>
+<p>Para verificar valores nulos regiao_inter:</p>
+<p><img alt="Figura 1" src="_images/fig5_112.png" /></p>
+<p>De acordo com o resultado plotado em “Data Output” não temos valores nulos na tabela regiao_inter.</p>
+<p>Para verificar valores nulos na tabela estado:</p>
+<p><img alt="Figura 1" src="_images/fig5_113.png" /></p>
+<p>De acordo com o resultado plotado em “Data Output” não temos valores nulos na tabela estado.</p>
+<p>Para verificar valores nulos na tabela regiao:</p>
+<p><img alt="Figura 1" src="_images/fig5_114.png" /></p>
+<p>De acordo com o resultado plotado em “Data Output” não temos valores nulos na tabela regiao.</p>
+<p>Para verificar valores nulos na tabela capitais:</p>
+<p><img alt="Figura 1" src="_images/fig5_115.png" /></p>
+<p>De acordo com o resultado plotado em “Data Output” não temos valores nulos na tabela capitais.</p>
+</section>
+<section id="checagem-de-existencia-de-duplicatas">
+<h3>5.6.2 Checagem de existência de duplicatas<a class="headerlink" href="#checagem-de-existencia-de-duplicatas" title="Link to this heading">#</a></h3>
+<p>A presença de duplicatas em colunas-chave pode comprometer a integridade dos dados e resultar em inconsistências, impactando negativamente análises e operações dependentes dessas informações.</p>
+<p>Para efetuar essa checagem, utilizamos a seguinte consulta SQL:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(),</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">coluna</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">nome_tabela</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Este comando nos permite comparar o número total de registros na tabela (<code class="docutils literal notranslate"><span class="pre">COUNT()</span></code>) com o número de registros únicos na coluna especificada (<code class="docutils literal notranslate"><span class="pre">COUNT(DISTINCT</span> <span class="pre">coluna)</span></code>). Se esses dois números diferem, isso indica a presença de duplicatas na coluna em questão.</p>
+<p>Vamos chegar a existência de duplicatas na tabela censo_mun, na coluna referente ao nome dos municípios.</p>
+<p><img alt="Figura 1" src="_images/fig5_94.png" /></p>
+<p>Podemos verificar que foram contados 5570 registros na tabela censo_mun (primeira coluna em Data Output) e apenas 5297 registros para nome_mun (segunda coluna em Data Output), indicando que temos diversos nomes de municípios duplicados nesta tabela.</p>
+<p>Para listar os nomes que aparecem mais de uma vez na tabela e contar quantas vezes eles estão registrados, utilizaremos o código da figura abaixo:</p>
+<p><img alt="Figura 1" src="_images/fig5_95.png" /></p>
+<p>Podemos verificar que temos o mesmo nome atribuído a até 5 municípios diferentes no Brasil. Explore a saída dessa consulta para verificar os demais nomes duplicados na tabela censo_mun.</p>
+<p>Vamos verificar duplicatas nas colunas cod_rgi e nome_rgi, na tabela regiao_imed.</p>
+<p><img alt="Figura 1" src="_images/fig5_96.png" /></p>
+<p>Verificamos que temos 510 registros na tabela regiao_inter (primeira coluna em Data Output) e 508 registros para nome_rgi (segunda coluna em Data Output), indicando que temos nomes de regiões imediatas duplicadas nesta tabela.</p>
+<p>Para listar os nomes que aparecem mais de uma vez na tabela e contar quantas vezes eles estão registrados, utilizaremos o código da figura abaixo:</p>
+<p><img alt="Figura 1" src="_images/fig5_97.png" /></p>
+<p>Os nomes que se repetem em regiões imediatas diferentes são Itabaiana e Valença. Utilizaremos o código apresentado na figura abaixo para conferir se realmente são duas regiões imediatas distintas.</p>
+<p><img alt="Figura 1" src="_images/fig5_98.png" /></p>
+<p>Em Data Output, podemos verificar que se tratam de duas regiões imediatas diferentes. Clicando em Geometry Viewer na coluna geom, podemos visualizar as geometrias das duas regiões imediatas.</p>
+<p><img alt="Figura 1" src="_images/fig5_99.png" /></p>
+<p>Para verificar duplicatas nas demais tabelas:</p>
+<p><img alt="Figura 1" src="_images/fig5_100.png" /></p>
+<p>Para as tabelas regiao_inter, estado, regiao e capitais, o número de registros da tabela e o número de registros da coluna nome é o mesmo, indicando que não existem duplicatas.</p>
+</section>
+<section id="verificacao-da-validade-das-geometrias">
+<h3>5.6.3 Verificação da validade das geometrias<a class="headerlink" href="#verificacao-da-validade-das-geometrias" title="Link to this heading">#</a></h3>
+<p>A verificação da validade das geometrias é essencial para assegurar a precisão e eficiência das operações espaciais. Geometrias inválidas podem causar erros em consultas, análises e visualizações, comprometendo a qualidade dos resultados.
+Para garantir a integridade dos dados espaciais importados dos shapefiles (censo_municipios, regioes_imediatas, regioes_intermediarias, estados_brasil, regioes_brasil), é necessário validar suas geometrias utilizando a função ST_IsValid do PostGIS. Essa função verifica a presença de erros na geometria e retorna true para geometrias válidas e false para inválidas.
+Para cada tabela no banco de dados, vamos executar a seguinte consulta SQL para identificar geometrias inválidas:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">()</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">invalid_geometries</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">nome_da_tabela</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">ST_IsValid</span><span class="p">(</span><span class="n">geom</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Para verificar a integridade das geometrias da tabela censo_mun:</p>
+<p><img alt="Figura 1" src="_images/fig5_116.png" /></p>
+<p>Ao interpretar os resultados da validação de geometrias em uma tabela, é importante compreender o significado dos números retornados. Um resultado de <code class="docutils literal notranslate"><span class="pre">0</span></code> para <code class="docutils literal notranslate"><span class="pre">invalid_geometries</span></code> é indicativo de que todas as geometrias na tabela estão corretas e não apresentam erros. Por outro lado, qualquer número maior que zero revela a presença de geometrias inválidas dentro da tabela, o que requer atenção imediata.</p>
+<p>Nesses casos, é necessário investigar e corrigir essas geometrias problemáticas. Para isso, pode-se utilizar a função <code class="docutils literal notranslate"><span class="pre">ST_MakeValid(geom)</span></code> ou outras funções similares projetadas para tratar e corrigir falhas nas geometrias, garantindo assim que os dados estejam precisos e confiáveis.</p>
+<p>Verificação de validade das geometrias da tabela regiao_imed:</p>
+<p><img alt="Figura 1" src="_images/fig5_117.png" /></p>
+<p>Não existem geometrias inválidas em regiao_imed.</p>
+<p>Para verificar a validade das geometrias na tabela regiao_inter:</p>
+<p><img alt="Figura 1" src="_images/fig5_118.png" /></p>
+<p>Não existem geometrias inválidas em regiao_inter.</p>
+<p>Para verificar a validade das geometrias na tabela estado:</p>
+<p><img alt="Figura 1" src="_images/fig5_119.png" /></p>
+<p>Não existem geometrias inválidas em estado.</p>
+<p>Para verificar a validade das geometrias na tabela regiao:</p>
+<p><img alt="Figura 1" src="_images/fig5_120.png" /></p>
+<p>Não existem geometrias inválidas em regiao.</p>
+<p>Para verificar a validade das geometrias na tabela capitais:</p>
+<p><img alt="Figura 1" src="_images/fig5_121.png" /></p>
+<p>Não existem geometrias inválidas na tabela capitais.</p>
+</section>
+</section>
+<section id="visualizacao-das-tabelas-no-qgis">
+<h2>5.7 Visualização das tabelas no QGIS<a class="headerlink" href="#visualizacao-das-tabelas-no-qgis" title="Link to this heading">#</a></h2>
+<p>Na última etapa do processamento dos dados do censo do IBGE, vamos inserir as tabelas do banco de dados como camadas no QGIS e visualizá-las.</p>
+<p>Retorne ao QGIS. Inicialmente vamos deletar os shapefiles adicionados no QGIS e que foram posteriormente importados para o banco de dados. Para tanto, selecione todos os arquivos que constam em “camadas’, clique com o botão direito do mouse e selecione “remover camada”.</p>
+<p><img alt="Figura 1" src="_images/fig5_43.png" /></p>
+<p>Após a exclusão, a área de trabalho no QGIS deve ficar conforme a figura abaixo.</p>
+<p><img alt="Figura 1" src="_images/fig5_44.png" /></p>
+<p>O próximo passo é adicionar cada tabela existente no banco de dados como uma camada no QGIS.</p>
+<p>Navegue até o menu “Camada” na barra de menu superior. Selecione “Adicionar Camada” e então “Adicionar Camada PostGIS”.</p>
+<p><img alt="Figura 1" src="_images/fig5_45.png" /></p>
+<p>Selecione a conexão “bdgeo” e clique em “Conectar”.</p>
+<p><img alt="Figura 1" src="_images/fig5_46.png" /></p>
+<p>Insira as suas credenciais.</p>
+<p><img alt="Figura 1" src="_images/fig5_47.png" /></p>
+<p>Expanda a árvore do esquema “public” para visualizar todas as tabelas que possuem colunas com dados espaciais na tabela bdespacial.</p>
+<p><img alt="Figura 1" src="_images/fig5_48.png" /></p>
+<p><img alt="Figura 1" src="_images/fig5_49.png" /></p>
+<p>Para adicionar cada tabela como uma camada do QGIS, selecione a tabela e clique em “Adicionar”, ou dê um duplo clique no nome da tabela.</p>
+<p><img alt="Figura 1" src="_images/fig5_50.png" /></p>
+<p>Abaixo temos a visualização da camada referente a tabela censo_mun.</p>
+<p><img alt="Figura 1" src="_images/fig5_51.png" /></p>
+<p>Consulte a tabela de atributos da tabela censo_mun.</p>
+<p><img alt="Figura 1" src="_images/fig5_52.png" /></p>
+<p>Para adicionar a tabela regiao_imed (e as demais tabelas) como uma camada no QGIS, repetimos o procedimento anterior.</p>
+<p>A figura abaixo apresenta a visualização da tabela regiao_imed.</p>
+<p><img alt="Figura 1" src="_images/fig5_58.png" /></p>
+<p><img alt="Figura 1" src="_images/fig5_59.png" /></p>
+<p>Repita o procedimento e insira as demais tabelas como camadas no QGIS. Na figura abaixo, podemos visualizar as tabelas estado e capitais.</p>
+<p><img alt="Figura 1" src="_images/fig5_122.png" /></p>
+</section>
+<section id="consideracoes-finais">
+<h2>5.8 Considerações Finais<a class="headerlink" href="#consideracoes-finais" title="Link to this heading">#</a></h2>
+<p>Neste capítulo, foram abordados os principais processos para configuração e manipulação de um banco de dados espacial, desde a preparação do ambiente no PgAdmin até a visualização e análise dos dados no QGIS. A evolução do banco de dados apresentado no Capítulo 2, com a inclusão de suporte a dados espaciais, ampliou suas capacidades analíticas, permitindo a realização de operações espaciais fundamentais para a tomada de decisões baseadas em localização.</p>
+<p>Ao longo das etapas desenvolvidas, foram exploradas técnicas essenciais, incluindo a importação e preparação dos dados do Censo do IBGE, a criação de índices espaciais para otimização do desempenho, a verificação da integridade dos dados e a integração entre o PostgreSQL/PostGIS e o QGIS. Essas práticas garantem um ambiente eficiente para manipulação e análise espacial, assegurando a confiabilidade e precisão dos resultados obtidos.</p>
+<p>Com o conhecimento adquirido, você está apto a estruturar e gerenciar bancos de dados espaciais, realizar operações analíticas e integrar diferentes ferramentas para aprimorar suas análises geoespaciais. A partir dessa base, é possível expandir a aplicação dessas técnicas para projetos mais complexos, otimizando a utilização de dados espaciais em diferentes contextos.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bancos de Dados Espaciais</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estrutura-do-capitulo">Estrutura do Capítulo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-requisitos"><strong>Pré-requisitos:</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#banco-de-dados-do-censo-demografico-do-ibge">5.1 Banco de Dados do Censo Demográfico do IBGE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparacao-dos-dados-e-codigos">5.2 Preparação dos Dados e Códigos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracao-e-importacao-de-dados-no-qgis">5.3 Configuração e Importação de Dados no QGIS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuracao-da-conexao-com-o-banco-de-dados"><strong>5.3.1 Configuração da Conexão com o Banco de Dados</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importacao-dos-arquivos-shapefile-para-o-banco-de-dados-a-partir-do-qgis">5.4 Importação dos Arquivos Shapefile para o Banco de Dados a partir do QGIS</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulacao-de-dados-no-pgadmin">5.5 Manipulação de Dados no PgAdmin</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deletar-a-tabela-geometrias">5.5.1 Deletar a Tabela <code class="docutils literal notranslate"><span class="pre">geometrias</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criacao-de-novas-tabelas"><strong>5.5.2 Criação de Novas Tabelas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deletar-do-banco-de-dados-as-tabelas-importadas-a-partir-do-qgis">5.5.3 Deletar do banco de dados as tabelas importadas a partir do QGIS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criacao-de-chaves-estrangeiras-e-indices-espaciais">5.5.4 Criação de chaves estrangeiras e índices espaciais</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#criacao-de-indices-espaciais">5.5.5 Criação de índices espaciais</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacao-do-vacuum-analyze">5.5.6 Aplicação do VACUUM ANALYZE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacao-da-integridade-e-validade-dos-dados">5.6 Verificação da Integridade e Validade dos Dados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checagem-de-existencia-de-valores-nulos">5.6.1 Checagem de existência de valores nulos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checagem-de-existencia-de-duplicatas">5.6.2 Checagem de existência de duplicatas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacao-da-validade-das-geometrias">5.6.3 Verificação da validade das geometrias</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizacao-das-tabelas-no-qgis">5.7 Visualização das tabelas no QGIS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consideracoes-finais">5.8 Considerações Finais</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alexandro Gularte Schafer
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
