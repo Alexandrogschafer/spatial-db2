@@ -56,26 +56,6 @@ Para realizar as atividades deste capítulo, é necessário:
 
 
 
-## Vídeos Complementares do Capítulo 5  
-
-Os vídeos a seguir foram preparados para reforçar e complementar os conceitos abordados no **Capítulo 5**. Eles apresentam, de forma prática e objetiva, a aplicação dos procedimentos descritos ao longo do capítulo, incluindo **configuração do ambiente, importação e manipulação de dados espaciais, validação da integridade dos dados e análises no QGIS**.  
-
-Ao assistir aos vídeos, você terá uma visão detalhada de cada etapa, acompanhando o fluxo de trabalho desde a configuração inicial no **PgAdmin**, passando pela **importação e estruturação dos dados do IBGE**, até a **visualização e análise final no QGIS**.  
-
-### Acesse os vídeos:  
-
-- **Vídeo 1:** [Configuração Inicial no PgAdmin](https://youtu.be/FpmrooP8yXE)  
-- **Vídeo 2:** [Preparação dos Dados do Censo IBGE](https://youtu.be/rAn7YIsWdGs)  
-- **Vídeo 3:** [Importação e Configuração no QGIS](https://youtu.be/4lySBbwQgTw)  
-- **Vídeo 4:** [Manipulação de Dados no PgAdmin](https://youtu.be/FHQPGlvMoto)  
-- **Vídeo 5:** [Verificação de Integridade e Limpeza de Dados](https://youtu.be/GoA4nAHA-cs)  
-- **Vídeo 6:** [Visualização e Análise Final no QGIS](https://youtu.be/4H-zG8f8swg)  
-- **Vídeo 7:** [Revisão e Atualização no PgAdmin](https://youtu.be/d_Iy7unPX6c)  
-
-Aproveite este material complementar para consolidar seu aprendizado e desenvolver uma abordagem mais prática no uso de **bancos de dados espaciais**.  
-
-
-
 
 ## 5.1 Banco de Dados do Censo Demográfico do IBGE  
 
