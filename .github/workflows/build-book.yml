@@ -1,0 +1,38 @@
+name: Build Jupyter Book
+
+on:
+  push:
+    branches:
+      - main  # Executa quando há push no branch main
+
+jobs:
+  build-book:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Baixa o repositório
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Passo 2: Configura o Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # Passo 3: Instala dependências
+      - name: Install dependencies
+        run: |
+          pip install jupyter-book
+
+      # Passo 4: Constrói o Jupyter Book
+      - name: Build Jupyter Book
+        run: |
+          jupyter-book build .
+
+      # Passo 5: Publica no GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_PAGES_TOKEN }}
+          publish_dir: ./_build/html
