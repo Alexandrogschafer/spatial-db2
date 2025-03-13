@@ -481,13 +481,13 @@ Podemos verificar que não existem dados armazenados na tabela.
 
 Vamos aplicar a consulta apresentada na figura abaixo para inserir os dados nessa tabela.
 
-![Figura 1](images/fig5_16.png)
+![Figura 1](images/fig5_71.png)
 
 No código acima, a função ST_GeomFromText é usada para criar uma geometria a partir de um texto no formato WKT (Well-Known Text). O primeiro parâmetro é a string WKT que representa o ponto geográfico, e o segundo parâmetro é o SRID (4674 refere-se ao SIRGAS2000).
 
 Após a inserção dos dados, atualize o banco de dados.
 
-![Figura 1](images/fig5_71.png)
+![Figura 1](images/fig5_73.png)
 
 A tabela “capitais” foi criada com sucesso. 
 
@@ -495,7 +495,7 @@ Vamos consultar os primeiros 5 registros desta tabela, conforme consulta apresen
 
 ![Figura 1](images/fig5_72.png)
 
-Caso alguma tabela criada anteriormente não apareça na árvore, aplique "refresh" para atualizá-la.
+Caso alguma tabela criada anteriormente não apareça na árvore, aplique "refresh" novamente para atualizá-la.
 
 ![Figura 1](images/fig5_73.png)
 
