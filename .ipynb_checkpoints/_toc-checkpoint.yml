@@ -5,5 +5,4 @@ format: jb-book
 root: intro
 chapters:
 - file: capitulo5
-- file: capitulo6
 
