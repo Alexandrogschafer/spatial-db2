@@ -1,0 +1,870 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. ANÁLISE E RELACIONAMENTOS ESPACIAIS: INTERAÇÕES ENTRE OBJETOS &#8212; Bancos de Dados Espaciais2</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'capitulo6';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS" href="capitulo5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/postgis_python.png" class="logo__image only-light" alt="Bancos de Dados Espaciais2 - Home"/>
+    <script>document.write(`<img src="_static/postgis_python.png" class="logo__image only-dark" alt="Bancos de Dados Espaciais2 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Bancos de Dados Espaciais
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="capitulo5.html">5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. ANÁLISE E RELACIONAMENTOS ESPACIAIS: INTERAÇÕES ENTRE OBJETOS</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Alexandrogschafer/spatial-db2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Alexandrogschafer/spatial-db2/edit/main/capitulo6.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Alexandrogschafer/spatial-db2/issues/new?title=Issue%20on%20page%20%2Fcapitulo6.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/capitulo6.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6. ANÁLISE E RELACIONAMENTOS ESPACIAIS: INTERAÇÕES ENTRE OBJETOS</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-equals">6.1 A função ST_Equals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funcoes-st-intersects">6.2 Funções ST_Intersects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funcao-st-disjoint">6.3 Função ST_Disjoint</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funcao-st-crosses">6.4 Função ST_Crosses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-overlaps">6.5 A função ST_Overlaps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-touches">6.6 A função ST_Touches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#as-funcoes-st-within-e-st-contains">6.7 As funções ST_Within e ST_Contains</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-within">6.7.1 A função ST_Within</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-contains">6.7.2 A função ST_Contains</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analise-e-relacionamentos-espaciais-interacoes-entre-objetos">
+<h1>6. ANÁLISE E RELACIONAMENTOS ESPACIAIS: INTERAÇÕES ENTRE OBJETOS<a class="headerlink" href="#analise-e-relacionamentos-espaciais-interacoes-entre-objetos" title="Link to this heading">#</a></h1>
+<p>Relacionamentos espaciais são fundamentais para descrever a interação entre diferentes formas geométricas no espaço. Essas relações são importantes tanto para a análise espacial quanto para a realização de consultas em bancos de dados espaciais. A extensão PostGIS, em particular, oferece uma rica coleção de funções projetadas para explorar e manipular dados espaciais ao considerar esses relacionamentos.</p>
+<p>No PostGIS, diversas funções permitem aos usuários não apenas consultar, mas também interpretar a maneira como as geometrias se relacionam. Entre essas funções, destacam-se: ST_Equals, que verifica se duas geometrias são exatamente iguais em termos de localização e forma; ST_Intersects, que determina se duas geometrias se sobrepõem em qualquer ponto; ST_Disjoint, que confirma se não há interseção entre as geometrias; ST_Crosses, que identifica se as geometrias se cruzam em um ponto; e ST_Overlaps, que avalia se uma parte de uma geometria é similar a outra.</p>
+<p>Além dessas, temos a ST_Touches, que verifica se as geometrias se encontram apenas nas bordas; ST_Within, que determina se uma geometria está contida inteiramente dentro de outra; ST_Contains, que é o inverso de ST_Within e verifica se uma geometria envolve completamente a outra; e ST_Distance, que mede a distância mínima entre as geometrias.</p>
+<p>Estudar e aplicar essas funções no contexto de dados geoespaciais não só amplia as possibilidades de análise como também enriquece o entendimento sobre como diferentes entidades geográficas se inter-relacionam no mundo real.</p>
+<p><strong>Estrutura do Capítulo</strong></p>
+<p>a. <strong>Introdução aos Relacionamentos Espaciais</strong><br />
+Conceituação sobre interações espaciais entre geometrias e importância dessas relações para análise espacial e consultas em bancos de dados geoespaciais. Apresentação das funções PostGIS utilizadas para explorar essas relações.</p>
+<p>b. <strong>A função ST_Equals</strong><br />
+Explicação sobre a função ST_Equals, que verifica se duas geometrias ocupam exatamente o mesmo espaço. Exemplos práticos de aplicação no pgAdmin4 e no QGIS, com a criação de visões materializadas para análise da igualdade espacial entre municípios.</p>
+<p>c. <strong>A função ST_Intersects</strong><br />
+Definição e aplicação da função ST_Intersects para verificar se duas geometrias possuem pelo menos um ponto em comum. Exemplos com rodovias e municípios no Brasil, explorando consultas SQL otimizadas e visualização no QGIS.</p>
+<p>d. <strong>A função ST_Disjoint</strong><br />
+Apresentação da função ST_Disjoint, que verifica se duas geometrias são completamente separadas. Aplicação em municípios brasileiros para análise de adjacência e relações espaciais.</p>
+<p>e. <strong>A função ST_Crosses</strong><br />
+Explicação sobre a função ST_Crosses, que determina se duas geometrias de dimensões diferentes se cruzam. Exemplos práticos envolvendo rodovias e municípios, utilizando consultas SQL e visualização no QGIS.</p>
+<p>f. <strong>A função ST_Overlaps</strong><br />
+Introdução à função ST_Overlaps, que verifica se duas geometrias compartilham parte da área, mas não se contêm completamente. Exemplos de aplicação com bacias hidrográficas e municípios brasileiros.</p>
+<p>g. <strong>A função ST_Touches</strong><br />
+Explicação sobre a função ST_Touches, que identifica se duas geometrias compartilham uma borda sem sobreposição interna. Exemplos de aplicação com municípios adjacentes no Brasil.</p>
+<p>h. <strong>As funções ST_Within e ST_Contains</strong><br />
+Comparação entre as funções ST_Within e ST_Contains, que verificam relações de inclusão espacial. Aplicação prática para verificar a relação entre pontos e polígonos, municípios e estados, e municípios e regiões geográficas no Brasil.</p>
+<p><strong>Pré-requisitos:</strong></p>
+<p>Para realizar as atividades deste capítulo, é necessário:</p>
+<ul class="simple">
+<li><p>Ter o <strong>PostgreSQL, PostGIS, PgAdmin4 e QGIS</strong> instalados no computador (ou instalá-los).</p></li>
+<li><p>Baixar os arquivos shapefile do capítulo 6 disponíveis em:<br />
+<a class="reference external" href="https://drive.google.com/drive/folders/10NjJSrqlx36Or-ozQJbRfwIocFQOPIdf?usp=sharing">Arquivos Shapefile - Capítulo 6</a></p></li>
+<li><p>Acessar o código SQL do capítulo 6 disponível em:<br />
+<a class="reference external" href="https://drive.google.com/drive/folders/10NjJSrqlx36Or-ozQJbRfwIocFQOPIdf?usp=sharing">Código SQL - Capítulo 5</a></p></li>
+</ul>
+<p><strong>Vídeos Complementares do Capítulo 6</strong></p>
+<p>Os vídeos a seguir foram preparados para reforçar e complementar os conceitos abordados no <strong>Capítulo 6</strong>. Eles apresentam, de forma prática e objetiva, a aplicação dos procedimentos descritos ao longo do capítulo.</p>
+<p><em>Acesse os vídeos:</em></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://youtu.be/JFxjbWHA6LI">Vídeo 1</a></p></li>
+<li><p><a class="reference external" href="https://youtu.be/lja0q_2_naQ">Vídeo 2</a></p></li>
+<li><p><a class="reference external" href="https://youtu.be/j9mdEWsUTSM">Vídeo 3</a></p></li>
+<li><p><a class="reference external" href="https://youtu.be/_gszd5wW8Mw">Vídeo 4</a></p></li>
+<li><p><a class="reference external" href="https://youtu.be/CUASK5oQcQs">Vídeo 5</a></p></li>
+<li><p><a class="reference external" href="https://youtu.be/mDIIDHxOyj0">Vídeo 6</a></p></li>
+<li><p><a class="reference external" href="https://youtu.be/D5-aJ9NaJ7E">Vídeo 7</a></p></li>
+</ul>
+<p>Aproveite este material complementar para consolidar seu aprendizado e desenvolver uma abordagem mais prática no uso de <strong>bancos de dados espaciais</strong>.</p>
+<section id="a-funcao-st-equals">
+<h2>6.1 A função ST_Equals<a class="headerlink" href="#a-funcao-st-equals" title="Link to this heading">#</a></h2>
+<p>A função ST_Equals é empregada no PostGIS para verificar se duas geometrias são espacialmente idênticas, isto é, se compartilham o mesmo espaço geográfico. Esta forma de igualdade foca na localização, forma, tamanho e orientação das geometrias, e não se baseia na igualdade dos bytes ou da representação textual das geometrias.</p>
+<p>É importante destacar que a igualdade espacial avaliada por ST_Equals não é afetada pela ordem ou pelo ponto inicial dos pontos nas geometrias. Por exemplo, dois polígonos podem ser considerados iguais mesmo se tiverem pontos de início diferentes ou sequências de pontos distintas, contanto que ocupem exatamente o mesmo espaço.</p>
+<p>Além disso, ST_Equals é uma função topologicamente sensível. Isso significa que ela considera a posição relativa dos pontos no espaço, e não apenas a ordem ou organização desses pontos. Este aspecto faz de ST_Equals uma ferramenta aplicável para análises que requerem uma avaliação precisa da congruência espacial entre duas geometrias, sem ser influenciada por variações na forma como essas geometrias são expressas ou armazenadas.</p>
+<p>Vamos aum exemplo de aplicação da função ST_Equals. Abra o pgAdmin4 e habilite o banco de dados bdespacial, que criamos nos capítulos anteriores.
+Inicialmente, vamos criar duas visões para o município de São Paulo, com o intuito de compará-las. Poderíamos fazer essa comparação extraindo a geometria do município diretamente da tabela censo_mun. No entanto, para deixar as consultas mais simples, optamos por criar visões ou visões materializadas. Faremos isso ao longo de toda esta seção de nosso livro-texto.</p>
+<p>Acesse o QGIS e ative a conexão com o banco de dados, que foi criada no capítulo 5 de nosso livro-texto.</p>
+<p>Baixe o arquivo com os códigos do capítulo 6 de nosso livro-texto, disponível em (link). Volte para o pgAdmin4, acesse a Query Tool e abra o arquivo com os códigos do capítulo 6, que está disponível em (link). Você pode optar por não abrir esse arquivo e digitar os códigos a medida em que acompanha o desenvolvimento dos exercícios.</p>
+<p><img alt="Figura 1" src="images/fig6_1.png" /></p>
+<p>Essas consultas SQL criam <em>materialized views</em> chamadas <code class="docutils literal notranslate"><span class="pre">sao_paulo</span></code> e <code class="docutils literal notranslate"><span class="pre">sao_paulo2</span></code>no sistema de gerenciamento de banco de dados. Vamos detalhar o que essas consultas fazem e como elas funcionam:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">MATERIALIZED</span> <span class="pre">VIEW</span> <span class="pre">sao_paulo</span></code>: Este comando cria uma visão materializada com o nome <code class="docutils literal notranslate"><span class="pre">sao_paulo</span></code>. Uma visão materializada é um objeto de banco de dados que contém os resultados de uma consulta SQL. Diferentemente de uma view comum, que recalcula os dados cada vez que é acessada, uma visão materializada armazena fisicamente os dados no banco de dados. Isso permite consultas muito mais rápidas, pois os dados já estão calculados e armazenados, o que é útil para conjuntos de dados grandes ou consultas complexas que seriam custosas para serem executadas repetidamente.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">*</span></code>: Este comando seleciona todas as colunas da tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>. Isso significa que a visão materializada <code class="docutils literal notranslate"><span class="pre">sao_paulo</span></code> incluirá todas as colunas e dados da tabela original que correspondem ao critério especificado no <code class="docutils literal notranslate"><span class="pre">WHERE</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">nome_mun</span> <span class="pre">=</span> <span class="pre">'São</span> <span class="pre">Paulo'</span></code>: Este filtro especifica que apenas os registros onde o campo <code class="docutils literal notranslate"><span class="pre">nome_mun</span></code> (nome do município) é igual a ‘São Paulo’ devem ser incluídos na visão materializada. Isso restringe os dados na visão materializada a apenas aqueles pertencentes ao município de São Paulo.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">censo_mun</span></code>: A tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> é a fonte dos dados. Esta tabela contém os dados sobre os municípios.</p></li>
+</ul>
+<p>Após a criação das visões, acesse o QGIS, adicione as camadas referentes às visões sao_paulo e sao_paulo2 e as visualize.</p>
+<p><img alt="Figura 1" src="images/fig6_2.png" /></p>
+<p><img alt="Figura 1" src="images/fig6_3.png" /></p>
+<p><img alt="Figura 1" src="images/fig6_4.png" /></p>
+<p>Em seguida, retorne para o pgAdmin4 e aplique a consulta a seguir.</p>
+<p><img alt="Figura 1" src="images/fig6_5.png" /></p>
+<p>Como era de se esperar, a consulta retornou true, confirmando que as duas geometrias são iguais.</p>
+<p>Vamos detalhar os componentes da consulta:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Equals(a.geom,</span> <span class="pre">b.geom)</span></code>: Esta função verifica se duas geometrias são “espacialmente iguais”, ou seja, se ocupam exatamente o mesmo espaço no sistema de coordenadas utilizado. Ela retorna <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> se as geometrias são idênticas em termos de localização e forma, e <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> caso contrário.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AS</span> <span class="pre">geometrias_iguais</span></code>: O resultado da função <code class="docutils literal notranslate"><span class="pre">ST_Equals</span></code> é nomeado como <code class="docutils literal notranslate"><span class="pre">geometrias_iguais</span></code>. Este nome atribuido à coluna facilita a interpretação dos resultados, indicando claramente se as geometrias comparadas são iguais ou não.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">sao_paulo</span> <span class="pre">a,</span> <span class="pre">sao_paulo_2</span> <span class="pre">b</span></code>: A consulta realiza um join implícito (cross join) entre as duas visões materializadas criadas anteriormente, utilizando os aliases <code class="docutils literal notranslate"><span class="pre">a</span></code> e <code class="docutils literal notranslate"><span class="pre">b</span></code> respectivamente. Este join combina a única linha da view <code class="docutils literal notranslate"><span class="pre">sao_paulo</span></code> com a única linha da view <code class="docutils literal notranslate"><span class="pre">sao_paulo_2</span></code>, comparando as suas geometrias.</p></li>
+</ul>
+<p>Obs.: Em bancos de dados, “aliases” são nomes alternativos temporários (ou apelidos) que são atribuídos a tabelas ou colunas em uma consulta SQL. Eles são usados principalmente para simplificar a consulta, especialmente quando trabalhamos com tabelas ou colunas que têm nomes longos ou complexos, ou quando a mesma tabela é utilizada múltiplas vezes dentro da mesma consulta. Os aliases ajudam a tornar o código mais legível e conciso, além de facilitar a referência a elementos específicos durante operações como joins, ordenações, e filtros. No exemplo dado, <code class="docutils literal notranslate"><span class="pre">a</span></code> e <code class="docutils literal notranslate"><span class="pre">b</span></code> são aliases que representam duas visões materializadas, permitindo que sejam manipuladas mais facilmente na consulta SQL.</p>
+<p>Vamos aplicar outra consulta, verificando a igualdade entre os municípios de São Paulo e Belo Horizonte. Inicialmente, crie uma visão materializada para o município de Belo Horizonte.</p>
+<p><img alt="Figura 1" src="images/fig6_6.png" /></p>
+<p>Utilize a consulta abaixo para verificar a igualdade entre Belo Horizonte e São Paulo.</p>
+<p><img alt="Figura 1" src="images/fig6_7.png" /></p>
+<p>Como era de se esperar, a consulta retornou false, confirmando que as duas geometrias são diferentes.</p>
+</section>
+<section id="funcoes-st-intersects">
+<h2>6.2 Funções ST_Intersects<a class="headerlink" href="#funcoes-st-intersects" title="Link to this heading">#</a></h2>
+<p>ST_Intersects é uma das funções espaciais mais usadas no PostGIS. Essa função determina se duas geometrias têm pelo menos um ponto em comum, ou seja, se elas possuem alguma interseção.
+A função retorna true se a intersecção das geometrias produzir um resultado diferente de uma geometria vazia, indicando que elas se sobrepõem espacialmente de alguma maneira. Isso inclui não apenas casos em que uma parte de uma geometria passa fisicamente através de outra, mas também quando uma geometria está completamente dentro de outra. A figura abaixo apresenta possibilidades de interseção entre geometrias.</p>
+<p><img alt="Figura 1" src="images/fig6_8.png" /></p>
+<p>Tipos de interseção entre geometrias no PostGIS. Fonte: <a class="reference external" href="http://Postgis.net">Postgis.net</a>, 2024.</p>
+<p>A grande vantagem de ST_Intersects é que ela pode ser utilizada em conjunto com índices espaciais. Isso significa que consultas que usam ST_Intersects podem ser rápidas, mesmo em bases de dados grandes, porque o PostGIS pode eliminar rapidamente candidatos que não têm possibilidade de interseção antes de realizar cálculos mais intensivos.</p>
+<p>Vamos aplicar o ST_Intersects para verificar se há interseção entre um trecho da BR-153 e alguns municípios da região sul do Brasil.</p>
+<p>Inicie o processo baixando o arquivo shapefile denominado <code class="docutils literal notranslate"><span class="pre">br153_sul</span></code> a partir do link fornecido no início do capítulo.</p>
+<p>Após realizar o download, abra o arquivo shapefile no QGIS para visualizar os dados. Em seguida, importe o shapefile para o PostgreSQL, especificamente no banco de dados <code class="docutils literal notranslate"><span class="pre">bdespacial</span></code>.</p>
+<p><img alt="Figura 1" src="images/fig6_9.png" /></p>
+<p>Utilize o pgAdmin4 para acessar e atualizar o banco de dados <code class="docutils literal notranslate"><span class="pre">bdespacial</span></code>. Confira se a tabela <code class="docutils literal notranslate"><span class="pre">br153_sul</span></code> foi corretamente importada e se está disponível no banco de dados.</p>
+<p><img alt="Figura 1" src="images/fig6_10.png" /></p>
+<p>Crie uma visão materializada para armazenar apenas os dados referentes ao município de Bagé-RS.</p>
+<p><img alt="Figura 1" src="images/fig6_11.png" /></p>
+<p>Visualize o município e o trecho da BR-153 no QGIS.</p>
+<p><img alt="Figura 1" src="images/fig6_12.png" /></p>
+<p>Aplique a consulta abaixo para verificar a BR-153 intersecciona o município de Bagé.</p>
+<p><img alt="Figura 1" src="images/fig6_13.png" /></p>
+<p>A consulta retornou true, indicando que a BR-153 intersecciona Bagé. Vamos detalhar os componentes dessa consulta:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Intersects(a.geom,</span> <span class="pre">b.geom)</span></code>: Esta função verifica se as duas geometrias especificadas têm algum ponto em comum. No contexto de análise geoespacial, ela retorna <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> se há interseção (ou seja, qualquer forma de sobreposição, contato ou cruzamento) entre as duas geometrias e <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> caso contrário.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AS</span> <span class="pre">intersecciona</span></code>: O resultado da função <code class="docutils literal notranslate"><span class="pre">ST_Intersects</span></code> é nomeado como <code class="docutils literal notranslate"><span class="pre">intersecciona</span></code>, simplificando a interpretação do resultado, indicando se há ou não uma interseção entre as geometrias analisadas.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">bage</span> <span class="pre">a,</span> <span class="pre">br153_sul</span> <span class="pre">b</span></code>: A consulta faz uso de um <em>cross join</em> implícito entre as tabelas <code class="docutils literal notranslate"><span class="pre">bage</span></code> e <code class="docutils literal notranslate"><span class="pre">br153_sul</span></code>. <code class="docutils literal notranslate"><span class="pre">a</span></code> e <code class="docutils literal notranslate"><span class="pre">b</span></code> são aliases para <code class="docutils literal notranslate"><span class="pre">bage</span></code> e <code class="docutils literal notranslate"><span class="pre">br153_sul</span></code>, respectivamente. O uso de aliases facilita a referência às tabelas dentro da consulta.</p></li>
+</ul>
+<p>Vamos a outro exemplo. Como podemos verificar na figura abaixo, São Paulo e Guarulhos são contíguas e, consequentemente, têm bordas adjacentes; vamos aplicar ST_Intersects para verificar o resultado.</p>
+<p><img alt="Figura 1" src="images/fig6_14.png" /></p>
+<p>Inicialmente, vamos criar uma visão materializada para armazenar os dados referentes ao município de Guarulhos.</p>
+<p><img alt="Figura 1" src="images/fig6_15.png" /></p>
+<p>Já havíamos criado a visão referente ao município de São Paulo. Vamos aplicar a consulta para verificar a intersecção.</p>
+<p><img alt="Figura 1" src="images/fig6_16.png" /></p>
+<p>A consulta retornou true, pois o PostGIS considera as linhas de borda entre as duas geometrias como uma intersecção.</p>
+<p>Como vimos, a função ST_Intersects é usada para determinar se duas geometrias compartilham qualquer espaço em comum. Isso inclui, mas não se limita a, sobreposições diretas de áreas internas, compartilhamento bordas (linhas) e até mesmo o toque em um único ponto. No caso de municípios contíguos como São Paulo e Guarulhos, que compartilham uma fronteira, ST_Intersects retornou TRUE porque as fronteiras dos municípios se tocam.
+A função ST_Intersection também é relevante para entender completamente como as interações espaciais são analisadas. ST_Intersection produz uma nova geometria que representa a área compartilhada ou o espaço comum entre duas geometrias.
+Para ilustrar as diferenças entre as funções ST_Intersects e ST_Intersection, aplicaremos ambas em um exemplo prático. Nosso objetivo é identificar todos os municípios localizados a até 10 km de distância do município de São Paulo. Utilizaremos essas funções para determinar quais municípios interseccionam a geometria criada a partir de uma operação de buffer de 10 km aplicado a geometria do município de São Paulo.</p>
+<p>Inicialmente, criamos um uma geometria originada por uma operação de buffer de 10km, na geometria do município de São Paulo (que está armazenada na visão sao_paulo criada anteriormente).</p>
+<p><img alt="Figura 1" src="images/fig6_17.png" /></p>
+<p>Na consulta acima:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Transform(geom,</span> <span class="pre">31983)</span></code>: Esta função é utilizada para transformar a geometria original (<code class="docutils literal notranslate"><span class="pre">geom</span></code>) do município de São Paulo de seu sistema de coordenadas original para o sistema de coordenadas com o código EPSG 31983. Este código EPSG é adequado para cálculos de distâncias e áreas porque preserva as proporções espaciais de maneira mais eficaz do que as projeções globais.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Buffer(...,</span> <span class="pre">10000)</span></code>: Após a transformação da geometria para o sistema EPSG 31983, a função <code class="docutils literal notranslate"><span class="pre">ST_Buffer</span></code> é aplicada para criar um buffer de 10.000 metros (ou 10 km) ao redor da geometria transformada. Este buffer serve para definir uma área que estende 10 km além dos limites originais do município.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Transform(...,</span> <span class="pre">4674)</span></code>: Finalmente, a geometria originada a partir do buffer é novamente transformada, desta vez para o sistema de coordenadas com o código EPSG 4674, que é o sistema que estamos utilizando em nosso estudo.</p></li>
+</ul>
+<p>O resultado dessas transformações e da aplicação do buffer é armazenado na coluna <code class="docutils literal notranslate"><span class="pre">geom_buffer</span></code> da <em>materialized view</em>. 	Adicione as visões sao_paulo_buffer_10km e sao_paulo no QGIS.</p>
+<p><img alt="Figura 1" src="images/fig6_18.png" /></p>
+<p>Após a criação do buffer, podemos prosseguir com nosso exemplo. Vamos criar uma visão materializada que inclua todos os municípios do estado de São Paulo. Esta abordagem otimiza significativamente o tempo de processamento das consultas que utilizam as funções ST_Intersects e ST_Intersection, uma vez que se concentra apenas nas geometrias relevantes do estado, em vez de abranger a tabela censo_mun, que contém as geometrias de todos os municípios do Brasil. Essa filtragem prévia melhora a eficiência ao reduzir a quantidade de dados processados.</p>
+<p><img alt="Figura 1" src="images/fig6_19.png" /></p>
+<p>Na consulta acima, cod_uf = 35 refere-se ao código do IBGE atribuído ao município de São Paulo.</p>
+<p>Adicione a view municipios_sp no QGIS. Na figura abaixo, a linha em azul sobreposta à view municipios_sp é o buffer criado anteriormente.</p>
+<p><img alt="Figura 1" src="images/fig6_20.png" /></p>
+<p>Agora que temos as visões sao_paulo_buffer_10km e municipio_sp, podemos aplicar as consultas usando ST_Intersects e ST_Intersection. A consulta a seguir ilustra a utilização do ST_Intersects:</p>
+<p><img alt="Figura 1" src="images/fig6_21.png" /></p>
+<p>Vamos detalhar o que essa consulta faz e como ela funciona:</p>
+<p><strong>Criação da Materialized View</strong>: A instrução <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">MATERIALIZED</span> <span class="pre">VIEW</span></code> é usada para criar a visão materializada.</p>
+<p><strong>Seleção de Dados</strong>: A consulta utiliza a cláusula <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> para escolher as colunas <code class="docutils literal notranslate"><span class="pre">nome_mun</span></code> (nome do município) e <code class="docutils literal notranslate"><span class="pre">geom</span></code> (geometria do município) da tabela <code class="docutils literal notranslate"><span class="pre">municipios_sp</span></code>, identificada no <code class="docutils literal notranslate"><span class="pre">FROM</span></code> com o alias <code class="docutils literal notranslate"><span class="pre">m</span></code>.</p>
+<p><strong>Junção de Tabelas com JOIN</strong>: A cláusula <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> é usada para combinar linhas da tabela <code class="docutils literal notranslate"><span class="pre">municipios_sp</span></code> com a tabela <code class="docutils literal notranslate"><span class="pre">sao_paulo_buffer_10km</span></code>, que é identificada com o alias <code class="docutils literal notranslate"><span class="pre">s</span></code>. A condição de junção, especificada após o <code class="docutils literal notranslate"><span class="pre">ON</span></code>, é <code class="docutils literal notranslate"><span class="pre">ST_Intersects(m.geom,</span> <span class="pre">s.geom_buffer)</span></code>. Isso significa que a junção ocorre somente se a geometria de um município (<code class="docutils literal notranslate"><span class="pre">m.geom</span></code>) intersecciona a geometria que representa uma área de buffer de 10 km ao redor de São Paulo (<code class="docutils literal notranslate"><span class="pre">s.geom_buffer</span></code>).</p>
+<p><strong>Função ST_Intersects</strong>: A função <code class="docutils literal notranslate"><span class="pre">ST_Intersects</span></code> é uma função espacial que retorna verdadeiro (<code class="docutils literal notranslate"><span class="pre">TRUE</span></code>) se as geometrias fornecidas compartilham algum ponto em comum, ou seja, se elas se intersectam. No contexto desta consulta, isso significa que apenas os municípios cuja área geográfica toca qualquer parte do buffer de 10 km em torno de São Paulo serão incluídos na visão materializada. Adicione a visão intersects_sp_10km no QGIS e visualize, juntamente com sao_paulo_buffer_10km.</p>
+<p><img alt="Figura 1" src="images/fig6_22.png" /></p>
+<p>Esta visão resulta da aplicação da função <code class="docutils literal notranslate"><span class="pre">ST_Intersects</span></code>, que verifica apenas a interseção entre a geometria dos municípios e o buffer de 10 km ao redor de São Paulo. A geometria resultante mostra todos os municípios cujas áreas tocam ou estão dentro do buffer, mantendo a geometria completa dos municípios.</p>
+<p>Vamos criar uma nova visão materializada, agora a partir da consulta utilizando a função ST_Intersection.</p>
+<p><img alt="Figura 1" src="images/fig6_23.png" /></p>
+<p>Nesta consulta:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Intersection(m.geom,</span> <span class="pre">s.geom_buffer)</span> <span class="pre">AS</span> <span class="pre">intersection_geom</span></code>: Calcula a interseção geométrica entre a geometria do município (<code class="docutils literal notranslate"><span class="pre">m.geom</span></code>) e a geometria de um buffer de 10 km em torno de São Paulo (<code class="docutils literal notranslate"><span class="pre">s.geom_buffer</span></code>). O resultado dessa interseção é armazenado na coluna <code class="docutils literal notranslate"><span class="pre">intersection_geom</span></code>. Isso significa que a coluna <code class="docutils literal notranslate"><span class="pre">intersection_geom</span></code> conterá a área exata que é compartilhada entre a geometria do município e o buffer ao redor de São Paulo.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ON</span> <span class="pre">ST_Intersects(m.geom,</span> <span class="pre">s.geom_buffer)</span></code>: A condição para a junção é que a geometria do município intersecciona a geometria do buffer. Essa condição assegura que somente municípios que têm alguma parte de sua área dentro dos 10 km de São Paulo sejam incluídos no processo.</p></li>
+<li><p>Adicione a visão intersection_sp_10km no QGIS.</p></li>
+</ul>
+<p><img alt="Figura 1" src="images/fig6_24.png" /></p>
+<p>Como podemos verificar, a geometria resultante da aplicação do ST_Intersection conterá somente as partes dos municípios que efetivamente estão dentro do buffer.</p>
+</section>
+<section id="funcao-st-disjoint">
+<h2>6.3 Função ST_Disjoint<a class="headerlink" href="#funcao-st-disjoint" title="Link to this heading">#</a></h2>
+<p>A função ST_Disjoint no PostGIS é usada para determinar se duas geometrias não compartilham nenhum ponto em comum, ou seja, se elas são espacialmente disjuntas. Se as geometrias não se tocam, não se sobrepõem, não se cruzam e nenhuma está dentro da outra, então ST_Disjoint retorna true. É o oposto de ST_Intersects. Enquanto ST_Intersects retorna true se houver algum tipo de interseção espacial entre as geometrias, ST_Disjoint retornará true apenas se as geometrias estiverem completamente separadas.
+Vamos aplicar essa função para investigar as relações espaciais entre municípios próximos a São Paulo.</p>
+<p>Exemplo 1: Verificar se as geometrias dos municípios de São Paulo e Guarulhos são disjuntas.</p>
+<p>Na figura abaixo, temos a visualização no QGIS das geometrias referentes aos municípios de São Paulo e Guarulhos.</p>
+<p><img alt="Figura 1" src="images/fig6_25.png" /></p>
+<p>Aplique a consulta apresentada na imagem abaixo para verificar se elas são disjuntas.</p>
+<p><img alt="Figura 1" src="images/fig6_26.png" /></p>
+<p>Vamos detalhar o funcionamento dessa consulta:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Disjoint(a.geom,</span> <span class="pre">b.geom)</span></code>: Esta função é usada para verificar se duas geometrias são completamente disjuntas.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">ST_Disjoint(a.geom,</span> <span class="pre">b.geom)</span> <span class="pre">AS</span> <span class="pre">geometrias_disjuntas</span></code>: A consulta seleciona o resultado da função <code class="docutils literal notranslate"><span class="pre">ST_Disjoint</span></code> e o nomeia como <code class="docutils literal notranslate"><span class="pre">geometrias_disjuntas</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">sao_paulo</span> <span class="pre">a,</span> <span class="pre">guarulhos</span> <span class="pre">b</span></code>: Esta parte da consulta especifica as fontes de dados. Aqui, é usada uma operação implícita de <em>cross join</em> (produto cartesiano) entre duas tabelas ou entidades nomeadas como <code class="docutils literal notranslate"><span class="pre">sao_paulo</span></code> e <code class="docutils literal notranslate"><span class="pre">guarulhos</span></code>. Cada tabela representa um município, e <code class="docutils literal notranslate"><span class="pre">a</span></code> e <code class="docutils literal notranslate"><span class="pre">b</span></code> são aliases para <code class="docutils literal notranslate"><span class="pre">sao_paulo</span></code> e <code class="docutils literal notranslate"><span class="pre">guarulhos</span></code>, respectivamente. Em um <em>cross join</em>, cada linha de <code class="docutils literal notranslate"><span class="pre">sao_paulo</span></code> é combinada com cada linha de <code class="docutils literal notranslate"><span class="pre">guarulhos</span></code>. Neste caso, considerando que cada tabela contém uma única linha representando a geometria total do município, o join resultará em um único par de geometrias a ser avaliado pela função <code class="docutils literal notranslate"><span class="pre">ST_Disjoint</span></code>.</p></li>
+</ul>
+<p>O resultado false significa que as geometrias não estão completamente separadas, ou seja, há ao menos um ponto onde as geometrias se encontram ou se interceptam.
+No caso de municípios adjacentes como São Paulo e Guarulhos, essa interseção ocorre ao longo de suas bordas compartilhadas. Portanto, eles não são disjuntos porque possuem linhas de borda em comum, e não pontos ou áreas isoladas.</p>
+<p>Exemplo 2: Analisar se as geometrias dos municípios de São Paulo e Suzano também são disjuntas.</p>
+<p>Inicialmente, vamos criar uma visão materializada que armazenará os dados referentes ao município de Suzano.</p>
+<p><img alt="Figura 1" src="images/fig6_27.png" /></p>
+<p>Na figura abaixo, temos a visualização no QGIS das geometrias referentes aos municípios de São Paulo e Suzano.</p>
+<p><img alt="Figura 1" src="images/fig6_28.png" /></p>
+<p>Aplique a consulta apresentada na imagem abaixo para verificar se elas são disjuntas.</p>
+<p><img alt="Figura 1" src="images/fig6_29.png" /></p>
+<p>A consulta retornou true. Isso indica que as geometrias de São Paulo e Suzano são completamente separadas, ou seja, não há qualquer ponto de contato ou intersecção entre elas. Não existem sequências de pontos comuns formando uma linha ou qualquer área de sobreposição.</p>
+</section>
+<section id="funcao-st-crosses">
+<h2>6.4 Função ST_Crosses<a class="headerlink" href="#funcao-st-crosses" title="Link to this heading">#</a></h2>
+<p>ST_Crosses é uma função no PostGIS que determina se duas geometrias de dimensões diferentes se cruzam de uma maneira particular. De acordo com a definição formal, essa função retorna true se as dimensões das intersecções das geometrias forem menores que as dimensões máximas das geometrias e a intersecção das geometrias internas tiver uma dimensão diferente de zero e não for igual às dimensões das geometrias de entrada.</p>
+<p>Exemplos de cenários em que ST_Crosses seria true:</p>
+<p>Linha e Polígono: Uma linha que passa através de um polígono atravessando-o de um lado ao outro;</p>
+<p>Linha e Linha: Duas linhas que se cruzam em um ponto que não seja o final de nenhuma das linhas.</p>
+<p>A função ST_Crosses não é aplicada para pares de geometrias do mesmo tipo. Por exemplo, não faz sentido usar ST_Crosses para dois polígonos ou para dois pontos.</p>
+<p>Vamos a um exemplo: Aplicar ST_Crosses para verificar se a rodovia BR-153 cruza o município de Bagé, no Rio Grande do Sul.</p>
+<p>Na imagem abaixo, temos a visualização das geometrias referentes ao município de Bagé-RS e ao trecho mais ao sul do Brasil da BR-153.</p>
+<p><img alt="Figura 1" src="images/fig6_30.png" /></p>
+<p>Aplique a consulta apresentada na imagem abaixo para verificar se as duas geometrias se cruzam.</p>
+<p><img alt="Figura 1" src="images/fig6_31.png" /></p>
+<p>Na consulta acima, <strong><code class="docutils literal notranslate"><span class="pre">ST_Crosses(a.geom,</span> <span class="pre">b.geom)</span></code></strong> é utilizada para determinar se duas geometrias se cruzam. No contexto geoespacial, “cruzar” significa que as geometrias têm algumas, mas não todas, partes internas em comum. A função <code class="docutils literal notranslate"><span class="pre">ST_Crosses</span></code> é geralmente aplicada entre linhas e polígonos, ou entre linhas e linhas.</p>
+<p>A consulta retornou true, indicando que a área geográfica do município de Bagé e o traçado da rodovia BR-153, se interseccionam de uma maneira que envolve compartilhamento de partes internas. Isso significa que a rodovia não apenas toca ou passa pela borda do município, mas efetivamente atravessa a área de uma forma que ambas as geometrias têm interseções que são mais substanciais do que meros pontos de contato.</p>
+<p>Vamos a mais um exemplo: Verificar se a BR-153 cruza o município de Dom Pedrito. Inicialmente criaremos a visão materializada de Dom Pedrito.</p>
+<p><img alt="Figura 1" src="images/fig6_32.png" /></p>
+<p>Na imagem abaixo, temos a visualização das geometrias referentes aos municípios de Bagé, Dom Pedrito-RS e do trecho mais ao sul do Brasil da BR-153.</p>
+<p><img alt="Figura 1" src="images/fig6_33.png" /></p>
+<p>Aplique a consulta apresentada na imagem abaixo para verificar se as duas geometrias se cruzam.</p>
+<p><img alt="Figura 1" src="images/fig6_34.png" /></p>
+<p>A consulta retornou false, indicando que a rodovia BR-153 não cruza o município de Dom Pedrito.</p>
+<p>No próximo exemplo, vamos criar uma visão com todos os municípios abrangidos pelo trecho da BR-153 mais ao sul do Brasil.</p>
+<p><img alt="Figura 1" src="images/fig6_35.png" /></p>
+<p>Esta consulta seleciona duas colunas, <code class="docutils literal notranslate"><span class="pre">nome_mun</span></code> e <code class="docutils literal notranslate"><span class="pre">geom</span></code>, da tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> que é representada pelo alias <code class="docutils literal notranslate"><span class="pre">m</span></code>. Essa tabela é então combinada com a tabela <code class="docutils literal notranslate"><span class="pre">br153_sul</span></code> (representada pelo alias <code class="docutils literal notranslate"><span class="pre">r</span></code>) usando um <em>join</em>.</p>
+<p>A condição de <em>join</em> é definida pela função <code class="docutils literal notranslate"><span class="pre">ST_Crosses(m.geom,</span> <span class="pre">r.geom)</span></code>. Esta função é uma operação espacial que retorna verdadeiro (<code class="docutils literal notranslate"><span class="pre">true</span></code>) se a geometria na coluna <code class="docutils literal notranslate"><span class="pre">geom</span></code> da tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> cruza a geometria na coluna <code class="docutils literal notranslate"><span class="pre">geom</span></code> da tabela <code class="docutils literal notranslate"><span class="pre">br153_sul</span></code>. No contexto de geometria espacial, “cruzar” significa que as geometrias têm alguns, mas não todos, pontos internos em comum e elas se interceptam em mais do que um ponto sem que uma esteja completamente contida na outra.</p>
+<p>Na figura abaixo, temos a visualização no QGIS da visão mun_br153_sul criada, além da geometria do trecho da BR-153.</p>
+<p><img alt="Figura 1" src="images/fig6_36.png" /></p>
+</section>
+<section id="a-funcao-st-overlaps">
+<h2>6.5 A função ST_Overlaps<a class="headerlink" href="#a-funcao-st-overlaps" title="Link to this heading">#</a></h2>
+<p>ST_Overlaps é uma função do PostGIS que determina se duas geometrias se sobrepõem, mas nenhuma cobre completamente a outra. A definição formal afirma que ela retorna true se, e somente se, a interseção das duas geometrias tiver a mesma dimensão que as geometrias que estão sendo testadas e a interseção das geometrias tem mais de um ponto em comum com as geometrias originais, mas não são idênticas.</p>
+<p>Em termos mais simples, ST_Overlaps é usada para testar se duas geometrias ocupam parte do mesmo espaço, mas cada uma tem partes que não são compartilhadas com a outra. Isso difere de ST_Intersects, que simplesmente testa se há alguma interseção, e ST_Contains, que verifica se uma geometria está completamente dentro da outra.</p>
+<p>Aqui estão alguns exemplos de quando ST_Overlaps retornaria true:</p>
+<p>Dois polígonos que compartilham parte de sua área, mas cada um possui uma parte que não é compartilhada com o outro;</p>
+<p>Duas linhas que compartilham um segmento em comum, mas cada uma tem segmentos que não são compartilhados.</p>
+<p>Por outro lado, ST_Overlaps retorna FALSE quando uma geometria está completamente dentro da outra (sem sobreposição) ou se elas são exatamente iguais.</p>
+<p>Vamos a um exemplos práticos.</p>
+<p>Exemplo 1: Verificar se o município de Bagé-RS está parcialmente contido na Bacia Hidrográfica do Rio Negro.</p>
+<p>Na figura abaixo podemos visualizar as geometrias referentes à bacia do Rio Negro e ao município de Bagé-RS.</p>
+<p><img alt="Figura 1" src="images/fig6_37.png" /></p>
+<p>Inicie o processo baixando o arquivo shapefile denominado <code class="docutils literal notranslate"><span class="pre">bacia_negro</span></code> a partir do link fornecido no início deste capítulo.</p>
+<p>Após o download, abra o arquivo shapefile ‘bacia_negro’ no QGIS para visualizar os dados. Em seguida, importe o shapefile para o PostgreSQL, especificamente no banco de dados <code class="docutils literal notranslate"><span class="pre">bdespacial</span></code>.</p>
+<p>Utilize o pgAdmin4 para acessar e atualizar o banco de dados <code class="docutils literal notranslate"><span class="pre">bdespacial</span></code>. Confira se a tabela <code class="docutils literal notranslate"><span class="pre">bacia_negro</span></code> foi corretamente importada e está disponível no banco de dados.</p>
+<p>Em seguida, execute a consulta apresentada na imagem abaixo.</p>
+<p><img alt="Figura 1" src="images/fig6_38.png" /></p>
+<p>A consulta retorna true, indicando que as áreas representadas por estas geometrias de fato se sobrepõem parcialmente.</p>
+<p>Exemplo 2: Criar uma visão materializada de todos os municípios abrangidos por essa bacia hidrográfica.</p>
+<p>Execute a consulta apresentada na figura a seguir para criar a visão materializada.</p>
+<p><img alt="Figura 1" src="images/fig6_39.png" /></p>
+<p>Nesta consulta:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">m.nome_mun,</span> <span class="pre">m.geom</span></code> - Esta parte da consulta define que os dados a serem selecionados incluem o nome do município (<code class="docutils literal notranslate"><span class="pre">nome_mun</span></code>) e a sua geometria (<code class="docutils literal notranslate"><span class="pre">geom</span></code>) da tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>, que é referenciada pelo alias <code class="docutils literal notranslate"><span class="pre">m</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">censo_mun</span> <span class="pre">m</span></code> - Especifica que os dados serão selecionados da tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>, a qual é temporariamente renomeada como <code class="docutils literal notranslate"><span class="pre">m</span></code> para facilitar referências na consulta.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JOIN</span> <span class="pre">bacia_negro</span> <span class="pre">b</span> <span class="pre">ON</span> <span class="pre">ST_Overlaps(m.geom,</span> <span class="pre">b.geom)</span></code> - Define um <em>join</em> com a tabela <code class="docutils literal notranslate"><span class="pre">bacia_negro</span></code> (com alias <code class="docutils literal notranslate"><span class="pre">b</span></code>). A condição para o <em>join</em> é dada pela função <code class="docutils literal notranslate"><span class="pre">ST_Overlaps(m.geom,</span> <span class="pre">b.geom)</span></code>, que avalia se as geometrias de <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> e <code class="docutils literal notranslate"><span class="pre">bacia_negro</span></code> se sobrepõem parcialmente. A função retorna <code class="docutils literal notranslate"><span class="pre">true</span></code> se uma parte significativa das duas geometrias se intersecta, mas sem que uma esteja completamente contida na outra.</p></li>
+</ul>
+<p>Após executar a consulta, adicione a visão municipios_bacia_negro no QGIS e visualize-a. Na figura abaixo, é possível visualizar a bacia hidrográfica do Rio Negro (contorno em vermelho) e os municípios que ela abrange.</p>
+<p><img alt="Figura 1" src="images/fig6_40.png" /></p>
+</section>
+<section id="a-funcao-st-touches">
+<h2>6.6 A função ST_Touches<a class="headerlink" href="#a-funcao-st-touches" title="Link to this heading">#</a></h2>
+<p>A função ST_Touches do PostGIS é usada para determinar se os limites de duas geometrias fazem contato, mas seus interiores não se interceptam. Em outras palavras, ST_Touches retorna true se as geometrias compartilham pelo menos um ponto em comum em seus limites, mas não há sobreposição entre as áreas internas de cada uma. Essa função é útil para determinar a adjacência entre geometrias em um plano.</p>
+<p>Exemplo 1: Verificar se as geometrias referentes aos municípios de São Paulo e Guarulhos (figura abaixo) possuem algum ponto de contato.</p>
+<p><img alt="Figura 1" src="images/fig6_41.png" /></p>
+<p>Aplique a consulta apresentada na imagem abaixo para verificar se as duas geometrias possuem pontos de contato.</p>
+<p><img alt="Figura 1" src="images/fig6_42.png" /></p>
+<p>A consulta retornou true, indicando que os dois municípios possuem pontos de contato.</p>
+<p>Na próxima consulta, vamos realizar a mesma verificação para os municípios de São Paulo e Suzano.</p>
+<p><img alt="Figura 1" src="images/fig6_43.png" /></p>
+<p>Aplique a consulta apresentada na imagem a seguir para verificar se as duas geometrias possuem pontos de contato.</p>
+<p><img alt="Figura 1" src="images/fig6_44.png" /></p>
+<p>A consulta retornou false, indicando que os dois municípios não possuem pontos de contato.</p>
+<p>Exemplo 2: Criar uma visão materializada com todos os municípios limítrofes ao município de Curitiba-PR.</p>
+<p>Execute a consulta apresentada na figura a seguir para criar a visão materializada.</p>
+<p><img alt="Figura 1" src="images/fig6_45.png" /></p>
+<p>Na consulta apresentada na figura acima:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">censo_mun</span> <span class="pre">m1</span> <span class="pre">JOIN</span> <span class="pre">censo_mun</span> <span class="pre">m2</span> <span class="pre">ON</span> <span class="pre">ST_Touches(m1.geom,</span> <span class="pre">m2.geom)</span></code>: Esta parte da consulta utiliza um <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> para ligar duas instâncias da mesma tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>, onde <code class="docutils literal notranslate"><span class="pre">m1</span></code> e <code class="docutils literal notranslate"><span class="pre">m2</span></code> são aliases para diferentes instâncias dessa tabela. O <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> é baseado na condição proporcionada pela função <code class="docutils literal notranslate"><span class="pre">ST_Touches</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Touches(m1.geom,</span> <span class="pre">m2.geom)</span></code>: A função <code class="docutils literal notranslate"><span class="pre">ST_Touches</span></code> é usada para determinar se as geometrias de dois municípios se tocam, mas sem sobreposição. Isto é, a função verifica se os municípios compartilham uma fronteira comum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">m2.nome_mun</span> <span class="pre">=</span> <span class="pre">'Curitiba'</span></code>: A cláusula <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> filtra os resultados do <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> para incluir apenas aqueles casos onde a instância <code class="docutils literal notranslate"><span class="pre">m2</span></code> da tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> corresponde ao município de Curitiba. Isso significa que a consulta irá retornar apenas os municípios que são vizinhos diretos de Curitiba, ou seja, aqueles que compartilham uma fronteira com Curitiba.</p></li>
+</ul>
+<p>Após executar a consulta, adicione a visão mun_limitrofes_curitiba no QGIS e visualize-a, conforme figura abaixo.</p>
+<p><img alt="Figura 1" src="images/fig6_46.png" /></p>
+</section>
+<section id="as-funcoes-st-within-e-st-contains">
+<h2>6.7 As funções ST_Within e ST_Contains<a class="headerlink" href="#as-funcoes-st-within-e-st-contains" title="Link to this heading">#</a></h2>
+<p>As funções ST_Within e ST_Contains são complementares e frequentemente usadas em consultas espaciais para determinar a relação de inclusão espacial entre duas geometrias no PostGIS.</p>
+<section id="a-funcao-st-within">
+<h3>6.7.1 A função ST_Within<a class="headerlink" href="#a-funcao-st-within" title="Link to this heading">#</a></h3>
+<p>ST_Within(A, B) verifica se a geometria A está inteiramente dentro da geometria B. Retorna true se A estiver completamente dentro de B, sem nenhuma parte de A cruzando a fronteira de B. Em outras palavras, se todos os pontos de A estão dentro do espaço delimitado por B, o resultado será true.</p>
+<p>Exemplo 1: Verificar se a geometria do tipo ponto, armazenada na tabela capitais, referente a Manaus está dentro do polígono referente ao município de Manaus armazenado na tabela censo_mun. Na figura a seguir apresentamos a visualização das duas geometrias no QGIS.</p>
+<p><img alt="Figura 1" src="images/fig6_47.png" /></p>
+<p>Inicialmente crie duas visões, uma para armazenar o ponto referente a Manaus e outra para armazenar o polígono referente a esse município.</p>
+<p><img alt="Figura 1" src="images/fig6_48.png" /></p>
+<p><img alt="Figura 1" src="images/fig6_49.png" /></p>
+<p>Aplique a consulta apresentada na imagem a seguir para verificar se o ponto está contido no polígono.</p>
+<p><img alt="Figura 1" src="images/fig6_50.png" /></p>
+<p>A consulta retornou true, indicando que o ponto está contido no polígono.</p>
+<p>Nesta consulta, é importante prestar atenção à ordem em que as geometrias são fornecidas. Observe que a primeira geometria especificada é aquela que estamos verificando se está contida, seguida pela geometria que supostamente contém a primeira.</p>
+<p>Esta sequência é essencial para garantir a correta execução e interpretação dos resultados da consulta.</p>
+<p>Na consulta abaixo, invertemos a ordem das geometrias na cláusula FROM. Nesse caso, será verificado se o polígono está contido dentro do ponto.</p>
+<p><img alt="Figura 1" src="images/fig6_51.png" /></p>
+<p>Como era de se esperar, a consulta retornou false.</p>
+<p>Exemplo 2: Verificar se a geometria polígono, referente ao município de Manaus	 está contida no polígono referente ao estado do Amazonas.</p>
+<p>Para realizar esta verificação, vamos criar uma visão materializada que armazenará os dados referentes ao estado do Amazonas.</p>
+<p><img alt="Figura 1" src="images/fig6_52.png" /></p>
+<p>Na figura abaixo, temos a visualização das geometrias referentes ao município de Manaus e ao estado do Amazonas no QGIS.</p>
+<p><img alt="Figura 1" src="images/fig6_53.png" /></p>
+<p>Para verificar se o polígono referente ao município está contido no polígono referente ao estado, aplicamos a consulta abaixo.</p>
+<p><img alt="Figura 1" src="images/fig6_54.png" /></p>
+<p>A consulta retorna true, indicando que o polígono referente ao município de Manaus está contido no polígono referente ao estado do Amazonas.</p>
+<p>Exemplo 3: Criar uma visão materializada com todos os municípios contidos na Região Imediata de Vitória</p>
+<p><img alt="Figura 1" src="images/fig6_55.png" /></p>
+<p>Nesta consulta:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">m.nome_mun,</span> <span class="pre">m.geom</span></code>: A consulta seleciona o nome do município (<code class="docutils literal notranslate"><span class="pre">nome_mun</span></code>) e sua geometria (<code class="docutils literal notranslate"><span class="pre">geom</span></code>) da tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>, que contém dados do censo para todos os municípios.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">censo_mun</span> <span class="pre">m</span></code>: Este comando especifica a tabela de onde os dados dos municípios são extraídos, com <code class="docutils literal notranslate"><span class="pre">m</span></code> sendo um alias para <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JOIN</span> <span class="pre">regiao_imed</span> <span class="pre">r</span> <span class="pre">ON</span> <span class="pre">ST_Within(m.geom,</span> <span class="pre">r.geom)</span></code>: Este é um <em>JOIN</em> com a tabela <code class="docutils literal notranslate"><span class="pre">regiao_imed</span></code>, que contém informações sobre regiões imediatas. O <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> é realizado com base na condição fornecida pela função <code class="docutils literal notranslate"><span class="pre">ST_Within</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ST_Within(m.geom,</span> <span class="pre">r.geom)</span></code>: Esta função é usada para verificar se a geometria de um município (<code class="docutils literal notranslate"><span class="pre">m.geom</span></code>) está completamente contida dentro da geometria de uma região imediata (<code class="docutils literal notranslate"><span class="pre">r.geom</span></code>). Retorna <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> se o município está inteiramente dentro da região, o que é uma condição essencial para que o município seja incluído no resultado da consulta.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">r.nome_rgi</span> <span class="pre">=</span> <span class="pre">'Vitória'</span></code>: Esta cláusula filtra os resultados do <em>JOIN</em> para incluir apenas aquelas entradas onde a região imediata é ‘Vitória’. Isso assegura que apenas os municípios dentro da região imediata de Vitória sejam selecionados.</p></li>
+</ul>
+<p>Após executar a consulta, adicione a visão mun_regiao_imed_vitoria no QGIS e visualize-a, conforme figura abaixo.</p>
+<p><img alt="Figura 1" src="images/fig6_56.png" /></p>
+</section>
+<section id="a-funcao-st-contains">
+<h3>6.7.2 A função ST_Contains<a class="headerlink" href="#a-funcao-st-contains" title="Link to this heading">#</a></h3>
+<p>A função <code class="docutils literal notranslate"><span class="pre">ST_Contains</span></code> é o inverso da função <code class="docutils literal notranslate"><span class="pre">ST_Within</span></code>. Enquanto <code class="docutils literal notranslate"><span class="pre">ST_Within(A,</span> <span class="pre">B)</span></code> verifica se a geometria A está completamente contida dentro da geometria B, <code class="docutils literal notranslate"><span class="pre">ST_Contains(B,</span> <span class="pre">A)</span></code> checa se a geometria B contém completamente a geometria A. Isso significa que <code class="docutils literal notranslate"><span class="pre">ST_Contains(B,</span> <span class="pre">A)</span></code> retorna <code class="docutils literal notranslate"><span class="pre">true</span></code> se e somente se <code class="docutils literal notranslate"><span class="pre">ST_Within(A,</span> <span class="pre">B)</span></code> também for <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<p>Exemplo 1: Verificar se o polígono referente ao município de Manaus contém o ponto referente a Manaus armazenado da tabela “capitais”.</p>
+<p><img alt="Figura 1" src="images/fig6_57.png" /></p>
+<p>A consulta retorna true, indicando que o polígono contém o ponto. Da mesma maneira que para a função ST_Within, temos que nos atentar para a ordem que informamos as visões na cláusula FROM. Na consulta a seguir invertemos a ordem:</p>
+<p><img alt="Figura 1" src="images/fig6_58.png" /></p>
+<p>Nesse caso, a consulta retorna false, pois o ponto não contém o polígono.</p>
+<p>Exemplo 2: Identificar a região imediata e a região intermediária nas quais o município de Coruripe-AL está inserido.</p>
+<p>Para identificar a Região Imediata a qual o município de Coruripe pertence, podemos aplicar a consulta abaixo.</p>
+<p><img alt="Figura 1" src="images/fig6_59.png" /></p>
+<p>A consulta retornou a região imediata de Penedo.</p>
+<p>Diferente das demais consultas apresentadas ao longo deste capítulo, na consulta acima optamos por não criar uma visão materializada para o município de Coruripe. Ao invés disso, realizamos a consulta diretamente na tabela censo_mun. Nos exemplos anteriores, optamos por criar visões materializadas principalmente para fins didáticos.</p>
+<p>Nesta consulta:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">r.nome_rgi</span></code> - Esta linha indica que a consulta vai retornar o nome da região imediata (<code class="docutils literal notranslate"><span class="pre">nome_rgi</span></code>) da tabela <code class="docutils literal notranslate"><span class="pre">regiao_imed</span></code>, que é representada pelo alias <code class="docutils literal notranslate"><span class="pre">r</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">regiao_imed</span> <span class="pre">r</span></code> - Os dados são extraídos da tabela <code class="docutils literal notranslate"><span class="pre">regiao_imed</span></code>, temporariamente renomeada como <code class="docutils literal notranslate"><span class="pre">r</span></code> para simplificar referências dentro da consulta.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JOIN</span> <span class="pre">censo_mun</span> <span class="pre">m</span> <span class="pre">ON</span> <span class="pre">ST_Contains(r.geom,</span> <span class="pre">m.geom)</span></code> - Aqui, ocorre um <em>join</em> (junção) com a tabela <code class="docutils literal notranslate"><span class="pre">censo_mun</span></code> (com alias <code class="docutils literal notranslate"><span class="pre">m</span></code>). A condição para essa junção é definida pela função <code class="docutils literal notranslate"><span class="pre">ST_Contains(r.geom,</span> <span class="pre">m.geom)</span></code>, que verifica se a geometria da região imediata (<code class="docutils literal notranslate"><span class="pre">r.geom</span></code>) contém completamente a geometria do município (<code class="docutils literal notranslate"><span class="pre">m.geom</span></code>). A função retorna <code class="docutils literal notranslate"><span class="pre">true</span></code> se toda a geometria de <code class="docutils literal notranslate"><span class="pre">m</span></code> estiver dentro dos limites da geometria de <code class="docutils literal notranslate"><span class="pre">r</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">m.nome_mun</span> <span class="pre">=</span> <span class="pre">'Coruripe'</span></code> - Esta cláusula <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> filtra os dados para incluir apenas aqueles registros onde o nome do município (<code class="docutils literal notranslate"><span class="pre">nome_mun</span></code>) é igual a “Coruripe”. Isso significa que a consulta retornará apenas a região imediata que contém o município de Coruripe.</p></li>
+</ul>
+<p>Na figura abaixo podemos confirmar que o município de Coruripe está inserido na região imediata de Penedo.</p>
+<p><img alt="Figura 1" src="images/fig6_60.png" /></p>
+<p>Para identificar a Região Intermediária a qual o município de Coruripe pertence, podemos aplicar a consulta abaixo.</p>
+<p><img alt="Figura 1" src="images/fig6_61.png" /></p>
+<p>Executando a consulta, verificamos que Coruripe pertence à Região Intermediária de Maceió. Na figura abaixo podemos confirmar que o município de Coruripe está inserido na região intermediária de Maceió.</p>
+<p><img alt="Figura 1" src="images/fig6_62.png" /></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="capitulo5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5.MANIPULAÇÃO DE GEOMETRIAS: OPERAÇÕES BÁSICAS COM DADOS ESPACIAIS</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-equals">6.1 A função ST_Equals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funcoes-st-intersects">6.2 Funções ST_Intersects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funcao-st-disjoint">6.3 Função ST_Disjoint</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funcao-st-crosses">6.4 Função ST_Crosses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-overlaps">6.5 A função ST_Overlaps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-touches">6.6 A função ST_Touches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#as-funcoes-st-within-e-st-contains">6.7 As funções ST_Within e ST_Contains</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-within">6.7.1 A função ST_Within</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-funcao-st-contains">6.7.2 A função ST_Contains</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alexandro Gularte Schafer
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
